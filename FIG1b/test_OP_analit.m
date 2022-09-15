@@ -14,7 +14,8 @@ N = 1e4;        % Number of points
 hl = 1;
 z = [0.8, 1.5, 6.7]; % near, moderate, stroug pointing error
 
-gamma_th = 5;
+gamma_th_dB = 5;
+gamma_th = db2pow(gamma_th_dB);
 
 A_0 = 0.8;
 colorstring = 'bgrm';

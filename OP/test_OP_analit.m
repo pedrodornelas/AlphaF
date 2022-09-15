@@ -18,7 +18,8 @@ N = 1e4;        % Number of points
 hl = 1;
 z = 20;
 
-gamma_th = 5;
+gamma_th_dB = 5;
+gamma_th = db2pow(gamma_th_dB);
 
 %betaVar = [1/3, 1, 2];      % AWGN
 betaVar = [0.8, 1, 2];
@@ -31,11 +32,13 @@ for i = 1:length(betaVar)
     semilogy(gammaBar_dB, Pb, 'Color', colorstring(i))
     %txt(i*2-1) = "BPSK";
     txt(i*2-1) = "\alpha = " + num2str(alpha) + " \mu = " + num2str(mu) + "\beta = " + num2str(betaVar(i));
+    i*2-1
     hold on
      
     [gammaBar_dB, P] = OP_asymptotic(alpha, betaVar(i), mu, ms, bounds, N, hl, z, gamma_th);
     semilogy(gammaBar_dB, P, 'Color', colorstring(i), 'LineStyle', '--')
     txt(i*2) = "asymptote";
+    i*2
     legend(txt)
     title("\beta = " + num2str(betaVar))
     
