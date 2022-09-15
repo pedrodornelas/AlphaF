@@ -3,8 +3,8 @@ close all
 clc
 
 alpha = [2.0, 3.5];  % non-linearity parameter
-mu = 3;     % number of multipath clusters
-ms = 1.3;    % shadowing parameter ms > 2 / alpha
+mu = 3;              % number of multipath clusters
+ms = 1.3;            % shadowing parameter ms > 2 / alpha
 
 L = 1;
 U = db2pow(30);
@@ -12,9 +12,9 @@ bounds = [L U]; % 0 - 30 dB
 N = 1e4;        % Number of points
 
 hl = 1;
-z = [0.8, 1.5, 6.7]; % near, moderate, stroug pointing error
+z = [0.8, 1.5, 6.7]; % stroug, moderate and near pointing error
 
-gamma_th_dB = 5;
+gamma_th_dB = 5; % in dB
 gamma_th = db2pow(gamma_th_dB);
 
 A_0 = 0.8;

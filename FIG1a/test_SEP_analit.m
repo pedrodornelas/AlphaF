@@ -16,7 +16,7 @@ bounds = [L U]; % 0 - 30 dB
 N = 1e4;        % Number of points
 
 hl = 1;
-z = [0.8, 1.5, 6.7]; % near, moderate, stroug pointing error
+z = [0.8, 1.5, 6.7]; % stroug, moderate and near pointing error
 
 colorstring = 'bgrm';
 A_0 = 0.8;

@@ -7,8 +7,8 @@ theta = 1;
 phi = 2;
 
 alpha = 3.5;  % non-linearity parameter
-mu = 3;     % number of multipath clusters
-ms = 5;    % shadowing parameter ms > 2 / alpha
+mu = 3;       % number of multipath clusters
+ms = 5;       % shadowing parameter ms > 2 / alpha
 
 L = 1;
 U = db2pow(30);
@@ -18,7 +18,7 @@ N = 1e4;        % Number of points
 hl = 1;
 z = 20;
 
-gamma_th_dB = 5;
+gamma_th_dB = 5; %in dB
 gamma_th = db2pow(gamma_th_dB);
 
 %betaVar = [1/3, 1, 2];      % AWGN
