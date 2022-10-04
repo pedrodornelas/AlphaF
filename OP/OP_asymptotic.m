@@ -1,4 +1,4 @@
-function [gammaBar_dB, P] = OP_asymptotic(alpha, betaVar, mu, ms, bounds, N, hl, z, gamma_th)
+function [gammaBar_dB, P] = OP_asymptotic(alpha, mu, ms, bounds, N, z, gamma_th)
 % Function to implement the asymptotic expression 
 % for the alpha-F fading and AWGGN distributions.
 %
@@ -23,18 +23,11 @@ gammaBar = linspace(L, U, N);
 
 gammaBar_dB = pow2db(gammaBar);
 
-% compute Lambda0
-A_0 = sqrt( gamma(3/betaVar) / gamma(1/betaVar) );
-%A_0 = 0.8;
-
 Psi = mu/(ms-1);
 
 % precomputations
-%preBeta = theta * gamma( (1+alpha*mu)/betaVar) / 2 / mu / beta(mu, ms) / gamma(1/betaVar);
-%prePow = ( (mu*lambda^(alpha/2)) / ( (A_0*sqrt(phi))^alpha * (ms-1)) )^mu;
 preBeta = 0;
-%prePow = (sqrt(phi)*hl*A_0*gammaBar.^(1/2)) / sqrt(2);
-prePow = (hl*A_0*sqrt(gammaBar))/sqrt(gamma_th);
+prePow = (sqrt(z^2+2)*sqrt(gammaBar))/(z*sqrt(gamma_th));
 aux = 0;
 
 % asymptotic OP

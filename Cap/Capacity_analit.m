@@ -1,14 +1,6 @@
-function [gammaBar_dB, Pb] = Capacity_analit( alpha, betaVar, mu, ms, bounds, N, hl, z)
+function [gammaBar_dB, Pb] = Capacity_analit(alpha, mu, ms, bounds, N, z)
 % TODO: doc func
 % N - number of points
-
-%lambda = 1;
-
-% compute Lambda0
-A_0 = sqrt( gamma(3/betaVar) / gamma(1/betaVar) );
-%A_0 = 0.8;
-
-
 
 % generate independent variable vector
 L = bounds(1);
@@ -18,9 +10,7 @@ gammaBar = linspace(L, U, N);
 
 gammaBar_dB = pow2db(gammaBar);
 
-
-uPsi = (mu/(ms-1))./((A_0.*sqrt(gammaBar)*hl).^alpha);
-
+uPsi = (mu/(ms-1)) * ((z ./ (sqrt(z^2+2)*sqrt(gammaBar))).^alpha);
 
 % precomputations
 

@@ -1,12 +1,8 @@
-function [gammaBar_dB, Pb] = SEP_analit(theta, alpha, betaVar, mu, ms, phi, bounds, N, hl, z)
+function [gammaBar_dB, Pb] = SEP_analit(theta, alpha, mu, ms, phi, bounds, N, z)
 % TODO: doc func
 % N - number of points
 
 %lambda = 1;
-
-% compute Lambda0
-A_0 = sqrt( gamma(3/betaVar) / gamma(1/betaVar) );
-%A_0 = 0.8;
 
 % generate independent variable vector
 L = bounds(1);
@@ -17,7 +13,7 @@ gammaBar = linspace(L, U, N);
 gammaBar_dB = pow2db(gammaBar);
 
 %uPsi = ( mu./(ms-1)*(sqrt(2))./ sqrt(phi).*A_0 .* gammaBar.^(1/2) .* hl );
-uPsi = (mu/(ms-1))*((sqrt(2)./(sqrt(phi)*A_0 * gammaBar.^(1/2)*hl)).^alpha);
+uPsi = (mu/(ms-1))*((z*sqrt(2)./(sqrt(phi*(z^2+2))* gammaBar.^(1/2))).^alpha);
 
 % precomputations
 %preGammaCoef = theta / (betaVar * gamma(1/betaVar) * gamma(mu) * gamfma(ms) );

@@ -1,4 +1,4 @@
-function [gammaBar_dB, P] = SEP_asymptotic(theta,alpha, betaVar, mu, ms, phi, bounds, N, hl, z)
+function [gammaBar_dB, P] = SEP_asymptotic(theta,alpha, mu, ms, phi, bounds, N, z)
 % Function to implement the asymptotic expression 
 % for the alpha-F fading and AWGGN distributions.
 %
@@ -23,17 +23,13 @@ gammaBar = linspace(L, U, N);
 
 gammaBar_dB = pow2db(gammaBar);
 
-% compute Lambda0
-A_0 = sqrt( gamma(3/betaVar) / gamma(1/betaVar) );
-%A_0 = 0.8;
-
 Psi = mu/(ms-1);
 
 % precomputations
 %preBeta = theta * gamma( (1+alpha*mu)/betaVar) / 2 / mu / beta(mu, ms) / gamma(1/betaVar);
 %prePow = ( (mu*lambda^(alpha/2)) / ( (A_0*sqrt(phi))^alpha * (ms-1)) )^mu;
 preBeta = 0;
-prePow = (sqrt(phi)*hl*A_0*gammaBar.^(1/2)) / sqrt(2);
+prePow = (sqrt(phi*(z^2+2)) * gammaBar.^(1/2)) / (z*sqrt(2));
 aux = 0;
 
 % asymptotic SEP

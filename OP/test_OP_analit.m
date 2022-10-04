@@ -15,32 +15,29 @@ U = db2pow(30);
 bounds = [L U]; % 0 - 30 dB
 N = 1e4;        % Number of points
 
-hl = 1;
-z = 20;
+z = [0.8, 1.5, 6.7]; % stroug, moderate and near pointing error
 
 gamma_th_dB = 5; %in dB
 gamma_th = db2pow(gamma_th_dB);
 
-%betaVar = [1/3, 1, 2];      % AWGN
-betaVar = [0.8, 1, 2];
 colorstring = 'bgrm';
 
 figure()
-for i = 1:length(betaVar)
+for i = 1:length(z)
     
-    [gammaBar_dB, Pb] = OP_analit(alpha, betaVar(i), mu, ms, bounds, N, hl, z, gamma_th);
+    [gammaBar_dB, Pb] = OP_analit(alpha, mu, ms, bounds, N, z(i), gamma_th);
     semilogy(gammaBar_dB, Pb, 'Color', colorstring(i))
     %txt(i*2-1) = "BPSK";
-    txt(i*2-1) = "\alpha = " + num2str(alpha) + " \mu = " + num2str(mu) + "\beta = " + num2str(betaVar(i));
+    txt(i*2-1) = "\alpha = " + num2str(alpha) + " \mu = " + num2str(mu) + " z = " + num2str(z(i));
     i*2-1
     hold on
      
-    [gammaBar_dB, P] = OP_asymptotic(alpha, betaVar(i), mu, ms, bounds, N, hl, z, gamma_th);
+    [gammaBar_dB, P] = OP_asymptotic(alpha, mu, ms, bounds, N, z(i), gamma_th);
     semilogy(gammaBar_dB, P, 'Color', colorstring(i), 'LineStyle', '--')
     txt(i*2) = "asymptote";
     i*2
     legend(txt)
-    title("\beta = " + num2str(betaVar))
+    title("z = " + num2str(z))
     
 end
 
@@ -74,3 +71,4 @@ end
 grid on
 % xlabel()
 ylim([1e-8, 1e0])
+legend('Location', 'southwest')

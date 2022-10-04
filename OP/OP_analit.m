@@ -1,12 +1,8 @@
-function [gammaBar_dB, Pb] = OP_analit( alpha, betaVar, mu, ms, bounds, N, hl, z, gamma_th)
+function [gammaBar_dB, Pb] = OP_analit( alpha, mu, ms, bounds, N, z, gamma_th)
 % TODO: doc func
 % N - number of points
 
 %lambda = 1;
-
-% compute Lambda0
-A_0 = sqrt( gamma(3/betaVar) / gamma(1/betaVar) );
-%A_0 = 0.8;
 
 % generate independent variable vector
 L = bounds(1);
@@ -16,9 +12,7 @@ gammaBar = linspace(L, U, N);
 
 gammaBar_dB = pow2db(gammaBar);
 
-%uPsi = (mu/(ms-1))*((sqrt(2)./(sqrt(phi)*A_0 * gammaBar.^(1/2)*hl)).^alpha);
-uPsi = (mu/(ms-1)) * ((sqrt(gamma_th))./(sqrt(gammaBar)*hl*A_0)).^alpha;
-uPsi = (mu/(ms-1)) * ((sqrt(gamma_th)) ./ (sqrt(gammaBar) * hl*A_0)) .^ alpha;
+uPsi = (mu/(ms-1)) * ((z*sqrt(gamma_th)) ./ (sqrt(gammaBar*(z^2+2)))) .^ alpha;
 
 % precomputations
 preGammaCoef = z^2/(alpha*gamma(mu)*gamma(ms));
