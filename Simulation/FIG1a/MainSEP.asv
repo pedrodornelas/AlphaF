@@ -29,8 +29,15 @@ for m = 1:length(M)
         mi = [m i]
         [ser(i,m),ber(i,m)] = channel(M(m),SNR_dB(i),N,alfa,mu,ms,z,Ao,Hl);
     end
-    [gammaBar_dB, Pb] = SEP_analit(theta(m), alfa, mu, ms, phi(m), bounds, points, z);
-    [gammaBar_dB, P] = SEP_asymptotic(theta(m),alfa, mu, ms, phi(m), bounds, points, z);
+end
+
+toc
+
+%%
+
+for j = 1:length(theta)
+    [gammaBar_dB, Pb] = SEP_analit(theta(j), alfa, mu, ms, phi(j), bounds, points, z);
+    [gammaBar_dB, P] = SEP_asymptotic(theta(j),alfa, mu, ms, phi(j), bounds, points, z);
     figure(1)
     semilogy(SNR_dB,ber,'rx',...
              gammaBar_dB, P,'g',...
@@ -40,5 +47,5 @@ for m = 1:length(M)
     hold on
 end
 
-toc
+%%
 
