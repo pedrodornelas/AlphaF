@@ -31,6 +31,8 @@ for i = 1:length(z)
     legend(txt)
     title("z = " + num2str(z))
     
+    varargout = histnorm(alpha);
+    
 end
 
 % %NBFSK
