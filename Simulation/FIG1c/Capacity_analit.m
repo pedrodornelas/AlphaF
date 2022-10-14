@@ -5,10 +5,10 @@ function [gammaBar_dB, Pb] = Capacity_analit(alpha, mu, ms, bounds, N, z)
 % generate independent variable vector
 L = bounds(1);
 U = bounds(2);
-gammaBar = linspace(L, U, N);
+gammaBar_dB = linspace(L, U, N);
 %gammaBar = gpuArray.linspace(L, U, N);
 
-gammaBar_dB = pow2db(gammaBar);
+gammaBar = db2pow(gammaBar_dB);
 
 uPsi = (mu/(ms-1)) * ((z ./ (sqrt(z^2+2)*sqrt(gammaBar))).^alpha);
 

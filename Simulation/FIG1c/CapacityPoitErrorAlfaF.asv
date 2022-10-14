@@ -36,7 +36,6 @@ C = zeros(length(gammaBar),1);
 
 tic
 for Z = 1:length(z)
-    Ao = sqrt(gammaBar*(2+z(Z)^2))/(rc*z(Z)*Hl);
     for i = 1:length(gammaBar)
         i
         % Ganhos aleatórios
@@ -59,7 +58,6 @@ for Z = 1:length(z)
     plot(GBdB,C(:),'o',...
              gammaBar_dB,P,'r',...
              gammaBar_dB,Pb,'b')
-    hold on
 end
 
 hold off
@@ -67,10 +65,10 @@ toc
 
 %%
 
-% [gammaBar_dB, P] = Capacity_asymptotic(alfa, mu, ms, bounds, points, z(1));
-% [gammaBar_dB, Pb] = Capacity_analit(alfa, mu, ms, bounds , points, z(1));
-% figure(2)
-% plot(GBdB,C(:),'o',...
-%          gammaBar_dB,P,'r',...
-%          gammaBar_dB,Pb,'b')
+[gammaBar_dB, P] = Capacity_asymptotic(alfa, mu, ms, bounds, points, z(1));
+[gammaBar_dB, Pb] = Capacity_analit(alfa, mu, ms, bounds , points, z(1));
+figure(2)
+plot(GBdB,C(:),'o',...
+         gammaBar_dB,P,'r',...
+         gammaBar_dB,Pb,'b')
 
