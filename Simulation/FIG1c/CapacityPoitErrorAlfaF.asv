@@ -14,10 +14,11 @@ GBdB = linspace(0,30,15); % SNR em dB
 gammaBar = 10.^(0.1*GBdB); % SNR linear
 
 % Parâmetros da Distribuição Alfa F
-alfa = 3.5;
+alfa = [2 , 5];
 mu = 3;
 ms = 5;
 rc = 1;
+
 
 % Perda de percurso
 Hl = 1.00;
@@ -35,40 +36,40 @@ z = [0.8, 1.5, 6.7];
 C = zeros(length(gammaBar),1);
 
 tic
-for Z = 1:length(z)
-    for i = 1:length(gammaBar)
-        i
-        % Ganhos aleatórios
-        Hf = gainAF(alfa,mu,ms,rc,Nc,1e-3); % Alpha F
-        Hp = PointError(z(Z),Ao(i),Nc); % Pointing error
-        % Ganho total
-        Gain = (Hl(:).*Hf(:).*Hp(:));
 
-        % Amostral Ergodic Capacity 
-        C(i) = mean(log2(1+Gain.^2)).';
+for Alfa = 1:length(alfa)
+    for Z = 1:length(z)
+        Ao = sqrt(gammaBar*(2+z(Z)^2))/(rc*z(Z)*Hl);
+        for i = 1:length(gammaBar)
+            i
+            % Ganhos aleatórios
+            Hf = gainAF(alfa(Alfa),mu,ms,rc,Nc,1e-3); % Alpha F
+            Hp = PointError(z(Z),Ao(i),Nc); % Pointing error
+            % Ganho total
+            Gain = (Hl(:).*Hf(:).*Hp(:));
+
+            % Amostral Ergodic Capacity 
+            C(i) = mean(log2(1+Gain.^2)).';
+        end
+        [gammaBar_dB, P] = Capacity_asymptotic(alfa(Alfa), mu, ms, bounds, points, z(Z));
+        [gammaBar_dB, Pb] = Capacity_analit(alfa(Alfa), mu, ms, bounds , points, z(Z));
         figure(1)
-        title('C x SNR (dB)')
-        semilogy(GBdB,C,'-x'); hold on
-        axis([min(GBdB) max(GBdB) min(C(:)) max(C(:))])
-        
+        plot(GBdB,C(:),'o',...
+                 gammaBar_dB,P,'k--',...
+                 gammaBar_dB,Pb,'b')
+        hold on
     end
-    [gammaBar_dB, P] = Capacity_asymptotic(alfa, mu, ms, bounds, points, z(Z));
-    [gammaBar_dB, Pb] = Capacity_analit(alfa, mu, ms, bounds , points, z(Z));
-    figure(2)
-    plot(GBdB,C(:),'o',...
-             gammaBar_dB,P,'r',...
-             gammaBar_dB,Pb,'b')
+    hold on
 end
-
 hold off
 toc
 
 %%
 
-[gammaBar_dB, P] = Capacity_asymptotic(alfa, mu, ms, bounds, points, z(1));
-[gammaBar_dB, Pb] = Capacity_analit(alfa, mu, ms, bounds , points, z(1));
-figure(2)
-plot(GBdB,C(:),'o',...
-         gammaBar_dB,P,'r',...
-         gammaBar_dB,Pb,'b')
+% [gammaBar_dB, P] = Capacity_asymptotic(alfa, mu, ms, bounds, points, z(1));
+% [gammaBar_dB, Pb] = Capacity_analit(alfa, mu, ms, bounds , points, z(1));
+% figure(2)
+% plot(GBdB,C(:),'o',...
+%          gammaBar_dB,P,'r',...
+%          gammaBar_dB,Pb,'b')
 
