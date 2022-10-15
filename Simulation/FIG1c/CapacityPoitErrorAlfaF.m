@@ -1,4 +1,5 @@
 clear all
+close all
 clc
 
 % Piece of code to calculate the Outage Probability
@@ -67,14 +68,15 @@ for Alfa = 1:length(alfa)
 end
 
 axis([min(GBdB) max(GBdB) 0 10])
-legend('Simulated',"\alpha = 2",'','','','','','','','',"\alpha = 3.5", 'Asymptotic', 'Location', 'southwest')
-%legend('Simulated','Asymptotic','\alpha=2','','','','','','','','', '\alpha = 5', 'Location', 'northwest')
+%legend('Simulated',"\alpha = 2",'','','','','','','','',"\alpha = 3.5", 'Asymptotic', 'Location', 'southwest')
+legend('Simulated','Asymptotic','$\alpha=2$','','','','','','','','', '$\alpha = 5$', 'Location', 'northwest')
+set(legend, 'Interpreter', 'latex')
 %title('Capacity')
-ylabel("Capacity")
-xlabel("SNR")
+ylabel("Capacity", 'FontSize', 14)
+xlabel("SNR", 'FontSize', 14)
 grid on
 
 %textbox com valores
-dim = [0.15 0.25 0.2 0.2];
+dim = [0.15 0.5 0.2 0.2];
 str = {"$\mu = 3$","$m_s = 5$"};
-annotation('textbox',dim,'String',str,'FitBoxToText','on');
+annotation('textbox',dim,'Interpreter','latex','String',str,'FitBoxToText','on');
