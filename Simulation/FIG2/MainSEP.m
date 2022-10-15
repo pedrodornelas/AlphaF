@@ -64,7 +64,7 @@ for Alpha = 1:length(alfa)
 end
 grid on
 %legend('Simulated', 'BPSK','','', 'QPSK', 'Asymptotic', 'Location', 'southwest')
-legend('Simulated','alpha = 6.5  \mu = 0.3','Asymptotic','','alpha = 6.5  \mu = 2','','', 'alpha = 2  \mu = 0.3','','','alpha = 2  \mu = 2' , 'Location', 'southwest')
+legend('Simulated','\alpha = 6.5  \mu = 0.3','Asymptotic','','\alpha = 6.5  \mu = 2','','', '\alpha = 2  \mu = 0.3','','','\alpha = 2  \mu = 2' , 'Location', 'southwest')
 
 set(legend, 'Interpreter', 'latex')
 %title("BPSK and QPSK")
