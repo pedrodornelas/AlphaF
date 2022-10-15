@@ -18,10 +18,10 @@ lambda = 1;
 % generate independent variable vector
 L = bounds(1);
 U = bounds(2);
+gammaBar_dB = linspace(L, U, N);
 %gammaBar = gpuArray.linspace(L, U, N);
-gammaBar = linspace(L, U, N);
 
-gammaBar_dB = pow2db(gammaBar);
+gammaBar = db2pow(gammaBar_dB);
 
 Psi = mu/(ms-1);
 

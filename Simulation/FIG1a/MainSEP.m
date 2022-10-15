@@ -1,13 +1,15 @@
+
+
 clc
 clear all
 
 M = [2 , 4]; % Ordem da constela��o M-QAM
 N = 5e5; % N�mero de bits transmitidos
 
-L = 0;  %db
+L = -30;  %db
 U = 30; %db
 points = 1e2;
-bounds = [-30 30];
+bounds = [L U];
 
 theta  = [1 , 2];
 phi = [2 , 1];
@@ -18,7 +20,6 @@ Hl = 1.0;
 ms = 5;
 z = 0.8;
 Ao = 0.8;
-tic
 
 ber = zeros(length(SNR_dB),length(M));
 ser = zeros(length(SNR_dB),length(M));
@@ -33,12 +34,13 @@ for m = 1:length(M)
     [gammaBar_dB, P] = SEP_asymptotic(theta(m),alfa, mu, ms, phi(m), bounds, points, z);
     figure(1)
     semilogy(SNR_dB,ber,'rx',...
-             gammaBar_dB, P,'g',...
-             gammaBar_dB, Pb,'b--',...
+             gammaBar_dB, P,'k--',...
+             gammaBar_dB, Pb,'b',...
              'linewidth',1.5)
-    legend('Simulated', 'Asymptotic', 'Theoretical')
     hold on
 end
 
-toc
-
+grid on
+legend('Simulated', '','Asymptotic', 'Theoretical', 'Location', 'southwest')
+title("BPSK and QPSK")
+ylim([1e-5, 1e0])
