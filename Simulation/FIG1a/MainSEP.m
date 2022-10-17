@@ -18,10 +18,10 @@ SNR_dB = linspace(L,U,15);
 
 %Parâmetros
 mu = 2;
-alfa = 3.0;
+alfa = 2.0;
 Hl = 1.0;
 ms = 5;
-z = [0.8, 1.5, 6.7];
+z = [0.6, 1.1, 6.5];
 Ao = 0.8;
 
 ber = zeros(length(SNR_dB),length(M));
