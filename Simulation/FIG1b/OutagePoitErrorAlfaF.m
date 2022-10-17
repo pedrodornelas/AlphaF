@@ -23,7 +23,7 @@ gamma_th_dB = 5; %in dB
 gamma_th = db2pow(gamma_th_dB);
 
 % Parâmetros da Distribuição Alfa F
-alfa = [2.0, 3.5];
+alfa = [1.5, 2.0];
 mu = 3;
 ms = 1.3;
 Nc = 1e4;
@@ -33,7 +33,7 @@ rc = 1;
 Hl = 1.00;
 
 % Rrro de apontamento
-z = [0.8, 1.5, 6.7];
+z = [0.6, 1.1, 6.5];
 
 % Inicialização dos vetores -- Prealocation
 Pout = zeros(length(gammaBar));
