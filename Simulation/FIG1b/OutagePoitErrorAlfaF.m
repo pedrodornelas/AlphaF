@@ -71,17 +71,18 @@ for j = 1:length(alfa)
 end
 
 
-axis([min(GBdB) max(GBdB) 1e-2 1])
+axis([min(GBdB) max(GBdB) 1e-5 1])
 legend('Simulated',"$\alpha = 2$",'','','','','','','','',"$\alpha = 3.5$", 'Asymptotic', 'Location', 'southwest')
 %title('Outage Probability')
 set(legend, 'Interpreter', 'latex')
 ylabel("OP", 'FontSize', 14)
+yticks([1e-5, 1e-4, 1e-3, 1e-2, 1e-1, 1e0])
 xlabel("SNR", 'FontSize', 14)
 grid on
 
 %textbox com valores
 dim = [0.15 0.25 0.2 0.2];
 str = {"$\mu = 3$","$m_s = 1.3$"};
-annotation('textbox',dim,,'interpreter','latex','String',str,'FitBoxToText','on');
+annotation('textbox',dim,'interpreter','latex','String',str,'FitBoxToText','on');
 
 %GBdB,cdfG(gth(1),gammaBar),'-',
