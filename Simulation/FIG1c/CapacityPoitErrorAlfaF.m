@@ -17,9 +17,9 @@ GBdB = linspace(0,30,15); % SNR em dB
 gammaBar = 10.^(0.1*GBdB); % SNR linear
 
 % Parâmetros da Distribuição Alfa F
-alfa = [2, 5];
-mu = 3;
-ms = 5;
+alfa = [1.5, 2];
+mu = 2;
+ms = 2.5;
 rc = 1;
 
 
@@ -27,7 +27,7 @@ rc = 1;
 Hl = 1.00;
 
 % Parametros da distribuição do erro de apontamento
-z = [0.8, 1.5, 11];
+z = [0.6, 1.1, 6.5];
 %Ao = sqrt(gammaBar*(2+z(1)^2))/(rc*z(1)*Hl);
 
 % % SNRs -- Amostragem dos valores observáveis
@@ -58,6 +58,7 @@ for Alfa = 1:length(alfa)
         [gammaBar_dB, P] = Capacity_asymptotic(alfa(Alfa), mu, ms, bounds, points, z(Z));
         [gammaBar_dB, Pb] = Capacity_analit(alfa(Alfa), mu, ms, bounds , points, z(Z));
         figure(1)
+      
         plot(GBdB,C(:,1),'rx',...
                  gammaBar_dB,P,'k--',...
                  gammaBar_dB,Pb, coloralfa(Alfa),...
