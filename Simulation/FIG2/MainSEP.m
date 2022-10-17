@@ -29,7 +29,7 @@ ber = zeros(length(SNR_dB),length(M));
 ser = zeros(length(SNR_dB),length(M));
 
 colorstr1 = 'bg';
-colorstr2 = 'cm';
+colorstr2 = 'bg';
 v = 1;
 
 Akmi = zeros(4);
@@ -65,7 +65,7 @@ for Alpha = 1:length(alfa)
 end
 grid on
 %legend('Simulated', 'BPSK','','', 'QPSK', 'Asymptotic', 'Location', 'southwest')
-legend('Simulated','$\alpha=6.5$ $\mu = 1.0$','','','$\alpha=6.5$ $\mu = 1.7$','','','','','','','','','$\alpha = 2$ $\mu = 1.0$','','','$\alpha = 2$ $\mu=1.7$','Asymptotic', 'Location', 'southwest')
+legend('Simulated','$\mu = 1.0$','','','$\mu = 1.7$','','','','','','','','','','','','','Asymptotic', 'Location', 'southwest')
 
 set(legend, 'Interpreter', 'latex')
 %title("BPSK and QPSK")
