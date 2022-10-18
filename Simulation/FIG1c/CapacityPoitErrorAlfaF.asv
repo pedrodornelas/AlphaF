@@ -19,7 +19,7 @@ gammaBar = 10.^(0.1*GBdB); % SNR linear
 % Parâmetros da Distribuição Alfa F
 alfa = 2;
 mu = 2;
-ms = [3.1, 10.5];
+ms = [2.1, 6.3];
 rc = 1;
 
 
@@ -59,12 +59,11 @@ for MS = 1:length(ms)
         [gammaBar_dB, P] = Capacity_asymptotic(alfa, mu, ms(MS), bounds, points, z(Z));
         [gammaBar_dB, Pb] = Capacity_analit(alfa, mu, ms(MS), bounds , points, z(Z));
         figure(1)
- 
-         
-        plot(GBdB,C(:,1),'rx',...
-             gammaBar_dB,Pb, colorMS(MS),...
-             gammaBar_dB,P,'k--',...
-             'linewidth', 1.2 )
+      
+%         plot(GBdB,C(:,1),'rx',...
+%              gammaBar_dB,Pb, colorMS(MS),...
+%              gammaBar_dB,P,'k--',...
+%              'linewidth', 1.2 )
 
         hold on
     end
