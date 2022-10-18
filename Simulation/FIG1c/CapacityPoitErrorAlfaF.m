@@ -72,7 +72,7 @@ end
 
 axis([min(GBdB) max(GBdB) 0 10])
 %legend('Simulated',"\alpha = 2",'','','','','','','','',"\alpha = 3.5", 'Asymptotic', 'Location', 'southwest')
-legend('Simulated',"$\alpha="+num2str(alfa)+"$ (Fisher-Snedecor)",'','','','','','','','', "$\alpha="+num2str(alfa)+"$","Asymptotic",'','Location','northwest')
+legend('Simulated',"$m_s="+num2str(ms(1))+"$",'','','','','','','','', "$m_s="+num2str(ms(2))+"$","Asymptotic",'','Location','northwest')
 set(legend, 'Interpreter', 'latex')
 %title('Capacity')
 ylabel("Capacity", 'FontSize', 14)
@@ -81,5 +81,5 @@ grid on
 
 %textbox com valores
 dim = [0.15 0.5 0.2 0.2];
-str = {"$\mu="+num2str(mu)+"$","$m_s="+num2str(ms)+"$"};
+str = {"$\mu="+num2str(mu)+"$","$\alpha="+num2str(alfa)+"$ (Fisher-Snedecor)"};
 annotation('textbox',dim,'Interpreter','latex','String',str,'FitBoxToText','on');
