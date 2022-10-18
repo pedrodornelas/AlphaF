@@ -23,8 +23,8 @@ gamma_th_dB = 5; %in dB
 gamma_th = db2pow(gamma_th_dB);
 
 % Parâmetros da Distribuição Alfa F
-alfa = [1.5, 2.0];
-mu = 3;
+alfa = [2.0, 5.7];
+mu = 2.7;
 ms = 1.3;
 Nc = 1e4;
 rc = 1;
@@ -45,9 +45,9 @@ for j = 1:length(alfa)
     for k = 1:length(z)
         Ao = sqrt(gammaBar*(2+z(k)^2))/(rc*z(k)*Hl);
         for i = 1:length(gammaBar)
-            i
+            [j k i]
             % Ganhos aleatórios
-            Hf = gainAF(alfa(j),mu,ms,rc,Nc,1e-3); % Alpha F
+            Hf = gainAF(alfa(j),mu,ms,rc,Nc,-1e-3); % Alpha F
             Hp = PointError(z(k),Ao(i),Nc); % Pointing error
             % Ganho total
             Gain = (Hl(:).*Hf(:).*Hp(:)).';
@@ -72,7 +72,7 @@ end
 
 
 axis([min(GBdB) max(GBdB) 1e-5 1])
-legend('Simulated',"$\alpha = 2$",'','','','','','','','',"$\alpha = 3.5$", 'Asymptotic', 'Location', 'southwest')
+legend('Simulated',"$\alpha="+num2str(alfa(1))+"$ (Fisher-Snedecor)",'','','','','','','','',"$\alpha="+num2str(alfa(2))+"$", 'Asymptotic', 'Location', 'southwest')
 %title('Outage Probability')
 set(legend, 'Interpreter', 'latex')
 ylabel("OP", 'FontSize', 14)
@@ -82,7 +82,7 @@ grid on
 
 %textbox com valores
 dim = [0.15 0.25 0.2 0.2];
-str = {"$\mu = 3$","$m_s = 1.3$"};
+str = {"$\mu ="+num2str(mu)+"$" , "$m_s ="+num2str(ms)+"$", "$\gamma_{th}="+num2str(gamma_th_dB)+"$ dB"};
 annotation('textbox',dim,'interpreter','latex','String',str,'FitBoxToText','on');
 
 %GBdB,cdfG(gth(1),gammaBar),'-',

@@ -45,7 +45,7 @@ for Alfa = 1:length(alfa)
     for Z = 1:length(z)
         Ao = sqrt(gammaBar*(2+z(Z)^2))/(rc*z(Z)*Hl);
         for i = 1:length(gammaBar)
-            i
+            Azi = [Alfa Z i]
             % Ganhos aleatórios
             Hf = gainAF(alfa(Alfa),mu,ms,rc,Nc,1e-3); % Alpha F
             Hp = PointError(z(Z),Ao(i),Nc); % Pointing error
@@ -55,14 +55,15 @@ for Alfa = 1:length(alfa)
             % Amostral Ergodic Capacity 
             C(i) = mean(log2(1+Gain.^2)).';
         end
+
         [gammaBar_dB, P] = Capacity_asymptotic(alfa(Alfa), mu, ms, bounds, points, z(Z));
         [gammaBar_dB, Pb] = Capacity_analit(alfa(Alfa), mu, ms, bounds , points, z(Z));
         figure(1)
       
         plot(GBdB,C(:,1),'rx',...
-                 gammaBar_dB,P,'k--',...
-                 gammaBar_dB,Pb, coloralfa(Alfa),...
-                 'linewidth', 1.2)
+             gammaBar_dB,Pb, coloralfa(Alfa),...
+             gammaBar_dB,P,'k--',...
+             'linewidth', 1.2 )
 
         hold on
     end
@@ -70,7 +71,7 @@ end
 
 axis([min(GBdB) max(GBdB) 0 10])
 %legend('Simulated',"\alpha = 2",'','','','','','','','',"\alpha = 3.5", 'Asymptotic', 'Location', 'southwest')
-legend('Simulated','Asymptotic','$\alpha=2$','','','','','','','','', '$\alpha = 5$', 'Location', 'northwest')
+legend('Simulated',"$\alpha="+num2str(alfa(1))+"$ (Fisher-Snedecor)",'','','','','','','','', "$\alpha="+num2str(alfa(2))+"$","Asymptotic",'','Location','northwest')
 set(legend, 'Interpreter', 'latex')
 %title('Capacity')
 ylabel("Capacity", 'FontSize', 14)
@@ -79,5 +80,5 @@ grid on
 
 %textbox com valores
 dim = [0.15 0.5 0.2 0.2];
-str = {"$\mu = 3$","$m_s = 5$"};
+str = {"$\mu="+num2str(mu)+"$","$m_s="+num2str(ms)+"$"};
 annotation('textbox',dim,'Interpreter','latex','String',str,'FitBoxToText','on');

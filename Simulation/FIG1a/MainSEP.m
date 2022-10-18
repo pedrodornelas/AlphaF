@@ -54,9 +54,10 @@ legend('Simulated', 'BPSK','','', 'QPSK', 'Asymptotic', 'Location', 'southwest')
 set(legend, 'Interpreter', 'latex')
 %title("BPSK and QPSK")
 ylim([1e-5, 1e0])
+yticks([1e-5 1e-4 1e-3 1e-2 1e-1 1e0])
 ylabel('SEP', 'FontSize', 14)
 xlabel('SNR', 'FontSize', 14)
 
 dim = [0.15 0.35 0.2 0.2];
-str = {'$\alpha = 3$', '$\mu = 2$', '$m_s=5$', '$A_0=0.8$'};
+str = {"$\alpha = "+num2str(alfa)+"$", "$\mu = "+num2str(mu)+"$", "$m_s= "+num2str(ms)+"$", "$A_0="+num2str(Ao)+"$"};
 annotation('textbox', dim, 'interpreter', 'latex', 'String', str, 'FitBoxToText', 'on');
