@@ -17,8 +17,8 @@ GBdB = linspace(0,30,15); % SNR em dB
 gammaBar = 10.^(0.1*GBdB); % SNR linear
 
 % Parâmetros da Distribuição Alfa F
-alfa = 2;
-mu = 2;
+alfa = 2.2;
+mu = 2.1;
 ms = [3.1, 10.5];
 rc = 1;
 
