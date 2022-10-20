@@ -37,6 +37,6 @@ dados_demod = de2bi(demod,k);
 dados_p2s = dados_demod(:);
 
 [~,ber] = biterr(coded,dados_p2s);
-ser = length(find(demod(:)~=dados_dec(:)))/N;
+ser = ber*log2(M);
 
 end

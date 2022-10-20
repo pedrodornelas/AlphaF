@@ -5,7 +5,7 @@ clc
 set(0,'defaulttextinterpreter','latex');
 
 M = [2 , 4]; % Ordem da constela��o M-QAM
-N = 5e5; % N�mero de bits transmitidos
+N = 1e5; % N�mero de bits transmitidos
 
 L = 0;  %db
 U = 30; %db
@@ -17,8 +17,8 @@ phi = [2 , 1];
 SNR_dB = linspace(L,U,15);
 
 %Parâmetros
-mu = 2;
-alfa = 2.0;
+mu = 2.1;
+alfa = 2.2;
 Hl = 1.0;
 ms = 5;
 z = [0.6, 1.1, 6.5];

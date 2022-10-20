@@ -38,7 +38,7 @@ while trapz(vec,f(vec)) < abs(1-tol)
 end
 vec = linspace(mn,mx,1e3);
 
-% Definição do limiar uperior do método de aceitação-rejeição -- Limiar
+% Definição do limiar superior do método de aceitação-rejeição -- Limiar
 % fixo. Caso máximo superior a 10, trucar valor em pi.
 mg = real(max(f(vec)));
 if mg > 10
@@ -61,7 +61,7 @@ g = g(1:N);
 
 % Visualização da aderência dos dados -- remover comentaro das partes abaixo
 % [fx,x] = histnorm(g,1.5e2);
-% figure(1)
+% figure(2)
 % plot(x,fx,'rx',...
 %      vec,f(vec),'b',...
 %      'linewidth',1.5)
