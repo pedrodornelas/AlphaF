@@ -3,6 +3,8 @@ close all
 clc
 
 set(0,'defaulttextinterpreter','latex');
+p = [0,0,0; 0,0,0; 0,0,0];
+q = [0,0,0; 0,0,0; 0,0,0];
 
 M = [2 , 4]; % Ordem da constela��o M-QAM
 N = 1e5; % N�mero de bits transmitidos
@@ -18,7 +20,7 @@ SNR_dB = linspace(L,U,15);
 
 %Parâmetros
 mu = 2.1;
-alfa = 2.2;
+alfa = 3.5;
 Hl = 1.0;
 ms = 5;
 z = [0.6, 1.1, 6.5];
@@ -41,16 +43,25 @@ for k = 1:length(z)
         [gammaBar_dB, P] = SEP_asymptotic(theta(m),alfa, mu, ms, phi(m), bounds, points, z(k));
         
         figure(1)
-        semilogy(SNR_dB,ser(:,m),'rx',...
-                gammaBar_dB, Pb, colorstr(m),...
-                gammaBar_dB, P,'k--',...
-                'linewidth',1.5)
+        if m == 1
+            p(: , k) = semilogy(SNR_dB,ser(:,m),'rx',...
+                    gammaBar_dB, Pb, colorstr(m),...
+                    gammaBar_dB, P,'k--',...
+                    'linewidth',1.5)
+        end
+        
+        if m == 2
+            q(: , k) = semilogy(SNR_dB,ser(:,m),'rx',...
+                    gammaBar_dB, Pb, colorstr(m),...
+                    gammaBar_dB, P,'k--',...
+                    'linewidth',1.5)
+        end
         hold on
     end
 end
 
 grid on
-legend('Simulated', 'BPSK','','', 'QPSK', 'Asymptotic', 'Location', 'southwest')
+legend([p(1) p(2) q(2) q(3)],'Simulated', 'BPSK','','', 'QPSK', 'Asymptotic', 'Location', 'southwest')
 set(legend, 'Interpreter', 'latex')
 %title("BPSK and QPSK")
 ylim([1e-5, 1e0])

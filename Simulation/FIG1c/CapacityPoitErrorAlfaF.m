@@ -6,6 +6,8 @@ clc
 % Brito - 28/09/2022
 
 set(0,'defaulttextinterpreter','latex');
+p = [0,0,0; 0,0,0; 0,0,0];
+q = [0,0,0; 0,0,0; 0,0,0];
 
 % Número de amostras
 Nc = 1e4;
@@ -60,19 +62,28 @@ for MS = 1:length(ms)
         [gammaBar_dB, Pb] = Capacity_analit(alfa, mu, ms(MS), bounds , points, z(Z));
         figure(1)
  
-         
-        plot(GBdB,C(:,1),'rx',...
+        
+        if MS == 1
+        p(:, Z) = plot(GBdB,C(:,1),'rx',...
              gammaBar_dB,Pb, colorMS(MS),...
              gammaBar_dB,P,'k--',...
              'linewidth', 1.2 )
-
+        end
+        
+        if MS == 2
+        q(:, Z) = plot(GBdB,C(:,1),'rx',...
+             gammaBar_dB,Pb, colorMS(MS),...
+             gammaBar_dB,P,'k--',...
+             'linewidth', 1.2 )
+        end
+        
         hold on
     end
 end
 
 axis([min(GBdB) max(GBdB) 0 10])
 %legend('Simulated',"\alpha = 2",'','','','','','','','',"\alpha = 3.5", 'Asymptotic', 'Location', 'southwest')
-legend('Simulated',"$m_s="+num2str(ms(1))+"$",'','','','','','','','', "$m_s="+num2str(ms(2))+"$","Asymptotic",'','Location','northwest')
+legend([p(1) p(2) q(2) q(3)],'Simulated',"$m_s="+num2str(ms(1))+"$",'','','','','','','','', "$m_s="+num2str(ms(2))+"$","Asymptotic",'','Location','northwest')
 set(legend, 'Interpreter', 'latex')
 %title('Capacity')
 ylabel("Capacity", 'FontSize', 14)
