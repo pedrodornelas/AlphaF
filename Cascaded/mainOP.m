@@ -10,7 +10,7 @@ set(groot,'defaultAxesTickLabelInterpreter','latex');
 
 % SNRs -- Amostragem dos valores observáveis
 L = 0;    %db
-U = 50;   %db
+U = 40;   %db
 points = 1e2;
 bounds = [L U]; %dB gammaBar limits
 
@@ -30,7 +30,7 @@ mu = [1.5, 1.7, 2];
 ms = 2.0;
 
 % Erro de apontamento
-z = [0.6, 0.8, 1.0; 1.0, 1.1, 1.2; 1.5, 1.6, 1.7; 15, 16, 13];
+z = [0.6, 0.8, 1.0; 1.0, 1.1, 1.2; 1.5, 1.6, 1.7; 15, 16, 13.5];
 
 if ms <= (4/alfa)
     fprintf('ms > 4/alpha not met')
@@ -48,7 +48,7 @@ Hl = 1.00;
 Pout = zeros(length(gammaBar));
 Ao = zeros(length(gammaBar));
 
-colorz = 'brgm';
+colorz = 'brgmp';
 
 for j = 1:length(N)
     for k = 1:length(z)
@@ -66,9 +66,10 @@ for j = 1:length(N)
         % end
 
         %%
-
-        [gammaBar_dB, Pb] = OP_analit(N(j), alfa, mu(1:j), ms, bounds, points, z(k, 1:j), gamma_th);
-        [gammaBar_dB, P] = OP_asymptotic(N(j), alfa, mu(1:j), ms, bounds, points, z(k, 1:j), gamma_th);
+        
+        nj = N(j);
+        [gammaBar_dB, Pb] = OP_analit(N(j), alfa, mu(1:nj), ms, bounds, points, z(k, 1:nj), gamma_th);
+        [gammaBar_dB, P] = OP_asymptotic(N(j), alfa, mu(1:nj), ms, bounds, points, z(k, 1:nj), gamma_th);
 
         figure(1)
         % semilogy(GBdB, Pout(:,1),'rx',...
@@ -101,12 +102,12 @@ ax.FontSize = 13;
 set(legend, 'Interpreter', 'latex')
 ylabel("OP", 'FontSize', 14)
 yticks([1e-5, 1e-4, 1e-3, 1e-2, 1e-1, 1e0])
-xlabel("SNR", 'FontSize', 14)
+xlabel("SNR (dB)", 'FontSize', 14)
 grid on
 
 %textbox com valores
 dim = [0.15 0.37 0.2 0.2];
-str = {"$\mu_1 ="+num2str(mu(1))+"$", "$\mu_2 ="+num2str(mu(2))+"$" , "$m_s ="+num2str(ms)+"$", "$\gamma_{th}="+num2str(gamma_th_dB)+"$ dB"};
+str = {"$\mu_1 ="+num2str(mu(1))+"$", "$\mu_2 ="+num2str(mu(2))+"$" , "$m_s ="+num2str(ms)+"$", "$\gamma_{\rm th}="+num2str(gamma_th_dB)+"$ dB"};
 annotation('textbox',dim,'interpreter','latex','String',str,'FitBoxToText','on', 'FontSize', tam_fonte);
 
 %GBdB,cdfG(gth(1),gammaBar),'-',
