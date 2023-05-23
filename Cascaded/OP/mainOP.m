@@ -10,7 +10,7 @@ set(groot,'defaultAxesTickLabelInterpreter','latex');
 
 % SNRs -- Amostragem dos valores observáveis
 L = 0;    %db
-U = 40;   %db
+U = 50;   %db
 points = 1e2;
 bounds = [L U]; %dB gammaBar limits
 
@@ -94,7 +94,7 @@ end
 axis([min(GBdB) max(GBdB) 1e-5 1])
 tam_fonte = 11;
 legend('FontSize', tam_fonte)
-legend("$z_1="+num2str(z(1,1))+"\, z_2="+num2str(z(1,2))+"$", '', "$z_1="+num2str(z(2,1))+"\, z_2="+num2str(z(2,2))+"$", '', "$z_1="+num2str(z(3,1))+"\, z_2="+num2str(z(3,2))+"$", '', "Non-pointing errors",'Asymptotic', 'Location', 'southwest')
+legend("$z_1="+num2str(z(1,1))+", z_2="+num2str(z(1,2))+"$", '', "$z_1="+num2str(z(2,1))+", z_2="+num2str(z(2,2))+"$", '', "$z_1="+num2str(z(3,1))+", z_2="+num2str(z(3,2))+"$", '', "Non-pointing errors",'Asymptotic', 'Location', 'southwest')
 ax = gca;
 ax.FontSize = 13;
 
@@ -106,8 +106,8 @@ xlabel("SNR (dB)", 'FontSize', 14)
 grid on
 
 %textbox com valores
-dim = [0.15 0.37 0.2 0.2];
-str = {"$\mu_1 ="+num2str(mu(1))+"$", "$\mu_2 ="+num2str(mu(2))+"$" , "$m_s ="+num2str(ms)+"$", "$\gamma_{\rm th}="+num2str(gamma_th_dB)+"$ dB"};
+dim = [0.15 0.40 0.2 0.2];
+str = {"$\alpha ="+num2str(alfa)+"$", "$\mu_1 ="+num2str(mu(1))+"$", "$\mu_2 ="+num2str(mu(2))+"$" , "$m_s ="+num2str(ms)+"$", "$\gamma_{\rm th}="+num2str(gamma_th_dB)+"$ dB"};
 annotation('textbox',dim,'interpreter','latex','String',str,'FitBoxToText','on', 'FontSize', tam_fonte);
 
 %GBdB,cdfG(gth(1),gammaBar),'-',
