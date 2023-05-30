@@ -115,7 +115,7 @@ end
 
 %textbox com valores
 dim = [0.15 0.32 0.2 0.2];
-str = {"$\alpha_1 ="+num2str(alfa(1))+"$", "$\alpha_2 ="+num2str(alfa(2))+"$", "$\mu ="+num2str(mu)+"$", "$m_s ="+num2str(ms)+"$","$\rho="+num2str(rho)+"$ (BSPK)"};
+str = {"$\alpha_1 ="+num2str(alfa(1))+"$", "$\alpha_2 ="+num2str(alfa(2))+"$", "$\mu ="+num2str(mu)+"$", "$m ="+num2str(ms)+"$","$\rho="+num2str(rho)+"$ (BSPK)"};
 annotation('textbox',dim,'interpreter','latex','String',str,'FitBoxToText','on', 'FontSize', tam_fonte);
 
 %GBdB,cdfG(gth(1),gammaBar),'-',
