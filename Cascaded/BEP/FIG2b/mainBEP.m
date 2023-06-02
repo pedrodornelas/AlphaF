@@ -117,4 +117,8 @@ dim = [0.15 0.32 0.2 0.2];
 str = {"$\alpha_1 ="+num2str(alfa(1))+"$", "$\alpha_2 ="+num2str(alfa(2))+"$", "$\mu ="+num2str(mu)+"$", "$\rho="+num2str(rho)+"$ (BSPK)"};
 annotation('textbox',dim,'interpreter','latex','String',str,'FitBoxToText','on', 'FontSize', tam_fonte);
 
-%GBdB,cdfG(gth(1),gammaBar),'-',
+%text arrow
+X = [0.72,0.68];
+Y = [0.74,0.59];
+str = {"$m=\{"+num2str(ms(1))+",\infty \}$"};
+annotation('textarrow', X, Y, 'String', str, 'interpreter', 'latex', 'FontSize', 13);

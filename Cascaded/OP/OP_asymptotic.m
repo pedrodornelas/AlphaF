@@ -12,8 +12,6 @@ function [gammaBar_dB, P] = OP_asymptotic(N, alpha, mu, ms, bounds, points, z, g
 % OUTPUTS:
 % P - points that form the asymptote
 
-lambda = 1;
-
 % generate independent variable vector
 L = bounds(1);
 U = bounds(2);
@@ -23,15 +21,16 @@ gammaBar_dB = linspace(L, U, points);
 gammaBar = db2pow(gammaBar_dB);
 
 Xi = ones(1, length(gammaBar));
-preGammaCoef = 1;
+preH = 1;
 for j = 1:N
     Psi = (mu(j)/(ms-1)) ^ (1/alpha);
-    Xi = Xi .* (Psi .* ((z(j).*sqrt(gamma_th)) ./ (sqrt(gammaBar .* (z(j)^2+2)))));
+    Xi = Xi .* (Psi .* (z(j) ./ (sqrt(gammaBar .* (z(j)^2+2)))));
 
     % precomputations
-    preGammaCoef = preGammaCoef * (z(j)^2/((alpha)*gamma(mu(j))*gamma(ms)));
+    preH = preH * (z(j)^2/((alpha)*gamma(mu(j))*gamma(ms)));
 end
 
+Xi = Xi * sqrt(gamma_th);
 onesAn = ones(1, N);
 
 % m = 2N; n = N+1; p = 2N+1; q = 2N+1;
@@ -77,28 +76,6 @@ end
 
 phiU = (gamma1*gamma2) / (gamma3*gamma4);
 
-P = (preGammaCoef * phiU * (Xi .^ U)) ./ Bc;
-
-
-% precomputations
-% preBeta = 0;
-% prePow = (sqrt(z^2+2)*sqrt(gammaBar))/(z*sqrt(gamma_th));
-% aux = 0;
-
-% % asymptotic OP
-% if mu < (z^2/alpha)
-% %    preBeta = (theta * z^2 * gamma((mu*alpha+1)/2) * Psi^mu) / ...
-% %              (2*sqrt(pi)*mu*(z^2 - mu*alpha)*beta(mu, ms));
-
-%     preBeta = (z.^2 * Psi.^mu)/((z.^2*mu - alpha*mu.^2) * (beta(mu,ms)));
-%     aux = -mu*alpha;
-% else
-%     preBeta = (gamma(mu-z.^2/alpha) * gamma(ms+z.^2/alpha)*Psi.^(z.^2/alpha))/(gamma(mu)*gamma(ms));
-%     aux = -z^2;
-% end
-% P = preBeta * prePow.^(aux);
-
-% debug
-% semilogy(gammaBar_dB, P)
+P = (preH * phiU * (Xi .^ U)) ./ Bc;
 
 end

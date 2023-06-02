@@ -12,8 +12,6 @@ function [gammaBar_dB, P] = BEP_asymptotic(N, alpha, mu, ms, bounds, points, z, 
 % OUTPUTS:
 % P - points that form the asymptote
 
-lambda = 1;
-
 % generate independent variable vector
 L = bounds(1);
 U = bounds(2);
@@ -23,16 +21,17 @@ gammaBar_dB = linspace(L, U, points);
 gammaBar = db2pow(gammaBar_dB);
 
 Xi = ones(1, length(gammaBar));
-preGammaCoef = 1;
+preH = 1;
 for j = 1:N
     Psi = (mu/(ms-1)) ^ (1/alpha(j));
-    Xi = Xi .* (Psi .* ((z(j).*(1/sqrt(rho))) ./ (sqrt(gammaBar .* (z(j)^2+2)))));
+    Xi = Xi .* (Psi .* (z(j) ./ (sqrt(gammaBar .* (z(j)^2+2)))));
 
     % precomputations
-    preGammaCoef = preGammaCoef * (z(j)^2/(alpha(j)*gamma(mu)*gamma(ms)));
+    preH = preH * (z(j)^2/(alpha(j)*gamma(mu)*gamma(ms)));
 end
 
-preGammaCoef = preGammaCoef / (4*sqrt(pi));
+Xi = Xi * (1/sqrt(rho));
+preH = preH / (4*sqrt(pi));
 
 onesN = ones(1, N);
 
@@ -79,6 +78,6 @@ end
 
 phiU = (gamma1*gamma2) / (gamma3*gamma4);
 
-P = (preGammaCoef * phiU * (Xi .^ U)) ./ Bc;
+P = (preH * phiU * (Xi .^ U)) ./ Bc;
 
 end

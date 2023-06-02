@@ -110,4 +110,8 @@ dim = [0.15 0.40 0.2 0.2];
 str = {"$\alpha ="+num2str(alfa)+"$", "$\mu_1 ="+num2str(mu(1))+"$", "$\mu_2 ="+num2str(mu(2))+"$" , "$m ="+num2str(ms)+"$", "$\gamma_{\rm th}="+num2str(gamma_th_dB)+"$ dB"};
 annotation('textbox',dim,'interpreter','latex','String',str,'FitBoxToText','on', 'FontSize', tam_fonte);
 
-%GBdB,cdfG(gth(1),gammaBar),'-',
+%text arrow
+X = [0.74,0.7];
+Y = [0.84,0.71];
+str = {"$N=\{" + num2str(N(1)) + "," + num2str(N(2)) + "\}$"};
+annotation('textarrow', X, Y, 'String', str, 'interpreter', 'latex', 'FontSize', 13);

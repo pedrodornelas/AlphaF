@@ -13,15 +13,16 @@ gammaBar_dB = linspace(L, U, points);
 gammaBar = db2pow(gammaBar_dB);
 
 Xi = ones(1, length(gammaBar));
-preGammaCoef = 1;
+preH = 1;
 for j = 1:N
     Psi = (mu(j)/(ms-1)) ^ (1/alpha);
-    Xi = Xi .* (Psi .* ((z(j).*sqrt(gamma_th)) ./ (sqrt(gammaBar .* (z(j)^2+2)))));
+    Xi = Xi .* (Psi .* (z(j) ./ (sqrt(gammaBar .* (z(j)^2+2)))));
 
     % precomputations
-    preGammaCoef = preGammaCoef * (z(j)^2/((alpha)*gamma(mu(j))*gamma(ms)));
+    preH = preH * (z(j)^2/((alpha)*gamma(mu(j))*gamma(ms)));
 end
 
+Xi = Xi * sqrt(gamma_th);
 onesAn = ones(1, N);
 
 % m = 2N; n = N+1; p = 2N+1; q = 2N+1;
@@ -39,7 +40,7 @@ for i = 1:points
 end
 
 % compute OP
-Pb = preGammaCoef .* fox;
+Pb = preH .* fox;
 
 % DEBUG
 % semilogy(gammaBar_dB, Pb)
