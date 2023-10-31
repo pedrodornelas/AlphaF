@@ -1,43 +1,49 @@
-function [gammaBar_dB, P] = OP_asymptotic(N, alpha, mu, ms, bounds, points, z, gamma_th)
-% Function to implement the asymptotic expression 
-% for the alpha-F fading and AWGGN distributions.
-%
-% INPUTS:
-% alpha - positive power parameter
-% beta - 
-% mu - number of multipath clusters
-% ms - shadowing parameter
-% points - number of points
-%
-% OUTPUTS:
-% P - points that form the asymptote
+function [OP] = OP_asymptotic(N, params, gamma_th, gammaBar)
+% params is a matrix of params cascaded system
+% params = [Channel 1: alpha, mu, ms, z;
+%           Channel 2: alpha, mu, ms, z;
+%           ...
+%           Channel n: alpha, mu, ms, z]
 
-% generate independent variable vector
-L = bounds(1);
-U = bounds(2);
-gammaBar_dB = linspace(L, U, points);
-%gammaBar = gpuArray.linspace(L, U, points);
+% alpha: non-linearity
+% mu: number of multipaths
+% ms: shadowing
+% z: pointing error
+% gamma_th: OP treshold
+% gammaBar: SNR vector
 
-gammaBar = db2pow(gammaBar_dB);
+channels = N;
+points = length(gammaBar);
 
-Xi = ones(1, length(gammaBar));
+Xi = 1;
 preH = 1;
-for j = 1:N
-    Psi = (mu(j)/(ms-1)) ^ (1/alpha);
-    Xi = Xi .* (Psi .* (z(j) ./ (sqrt(gammaBar .* (z(j)^2+2)))));
+for c = 1:N
+    alpha = params(c,1);
+    mu = params(c,2);
+    ms = params(c,3);
+    z = params(c,4);
+
+    Psi = (mu/(ms-1)) ^ (1/alpha);
+    Xi = Xi .* ((Psi .* z) ./ sqrt( gammaBar(:, c) .* (z^2+2)));
 
     % precomputations
-    preH = preH * (z(j)^2/((alpha)*gamma(mu(j))*gamma(ms)));
+    preH = preH * (z^2/(alpha * gamma(mu) * gamma(ms)));
 end
 
-Xi = Xi * sqrt(gamma_th);
+Xi = (Xi .* sqrt(gamma_th));% ./ sqrt(gammaBar);
+
 onesAn = ones(1, N);
 
 % m = 2N; n = N+1; p = 2N+1; q = 2N+1;
-an = [1, (1-ms)*onesAn];                 An = [1, (1/alpha)*onesAn];   
-ap = [(((z.^2)./alpha) + 1)];            Ap = [(1/alpha)*onesAn];
-bm = [mu, ((z.^2)./alpha)];              Bm = [(1/alpha)*onesAn, (1/alpha)*onesAn];
-bq = [0];                                Bq = [1];
+alphas = params(1:N, 1).';
+mus = params(1:N, 2).';
+mss = params(1:N, 3).';
+zs = params(1:N, 4).';
+
+an = [1, (1 - mss)];                 An = [1, (1./alphas)];   
+ap = [(((zs.^2)./alphas) + 1)];      Ap = [(1./alphas)];
+bm = [mus, ((zs.^2)./alphas)];       Bm = [(1./alphas), (1./alphas)];
+bq = [0];                            Bq = [1];
 
 
 div = bm./Bm;
@@ -76,6 +82,6 @@ end
 
 phiU = (gamma1*gamma2) / (gamma3*gamma4);
 
-P = (preH * phiU * (Xi .^ U)) ./ Bc;
+OP = (preH * phiU * (Xi .^ U)) ./ Bc;
 
 end
