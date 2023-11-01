@@ -14,11 +14,16 @@ U = 50;   %db
 points = 1e2;
 bounds = [L U]; %dB gammaBar limits
 
-GBdB = linspace(L, U, 15); % SNR em dB
-gammaBar = 10.^(0.1*GBdB); % SNR linear
+analit_gammaBar_dB = linspace(L, U, points);
+analit_gammaBar = 10.^(0.1*analit_gammaBar_dB);
+simu_gammaBar_dB = linspace(L, U, 15);      % SNR em dB
+simu_gammaBar = 10.^(0.1*simu_gammaBar_dB); % SNR linear
 
-% Parâmetro da modulação
+% Parâmetro da modulação (teóricas)
 rho = 1;
+% Parâmetro da modulação (simulação)
+% Ordem da constelação MQAM
+M = 2;
 
 % Parâmetros da Distribuição Alfa F - Cascaded
 N = 2;    % nº estações relay
@@ -26,8 +31,18 @@ alfa = [2.2, 2.5];
 mu = 1;
 ms = [2];
 
+analit_gammaBar_c = ones( length(analit_gammaBar) , max(N));
+analit_gammaBar_c(:, 1) = analit_gammaBar; % variar só do primeiro canal...
+simu_gammaBar_c = ones( length(simu_gammaBar) , max(N));
+simu_gammaBar_c(:, 1) = simu_gammaBar; % variar só do primeiro canal...
+
 % Erro de apontamento
-z = [0.6, 0.8; 1.0, 1.1; 1.5, 1.6; 14, 15];
+z = [0.6, 0.8; 
+     1.0, 1.1; 
+     1.5, 1.6; 
+     8 ,  9;];
+% z = [ 8,  9;
+%      14, 15;];
 % z = [0.6, 0.8; 1.0, 1.1; 3, 3.3; 14, 15];
 
 for i=1:length(alfa)
@@ -39,64 +54,51 @@ end
 
 % Parâmetros da simulação
 Nc = 1e4; % Número de pontos
-rc = 1;   % 
+Ao = 0.8;
 
 % Perda de percurso
 Hl = 1.00;
 
-% Inicialização dos vetores -- Prealocation
-Pout = zeros(length(gammaBar));
-Ao = zeros(length(gammaBar));
-
+% início da simulação e geração de gráficos
 colorz = 'brgmp';
 
-for j = 1:length(alfa)
-    for k = 1:length(z)
-        for w = 1:length(ms)
-            % Ao = sqrt(gammaBar*(2+z(k)^2))/(rc*z(k)*Hl);
-            % for i = 1:length(gammaBar)
-            %     [j k i]
-            %     % Ganhos aleatórios
-            %     Hf = gainAF(alfa(j),mu,ms,rc,Nc,-1e-3); % Alpha F
-            %     Hp = PointError(z(k),Ao(i),Nc); % Pointing error
-            %     % Ganho total
-            %     Gain = (Hl(:).*Hf(:).*Hp(:)).';
-                
-            %     [flagBEP,~] = find(Gain.^2 <= rho);
-            %     Pout(i) = sum(flagBEP)/Nc;
-            % end
+tic;
 
-            %%
-            
-            [gammaBar_dB, Pb] = BEP_analit(N, alfa(1:N), mu, ms(w), bounds, points, z(k, 1:N), rho);
-            [gammaBar_dB, P] = BEP_asymptotic(N, alfa(1:N), mu, ms(w), bounds, points, z(k, 1:N), rho);
+figure(1)
+cont = 1;
 
-            figure(1)
-            % semilogy(GBdB, Pout(:,1),'rx',...
-            %         gammaBar_dB, Pb, colorz(j),...
-            %         gammaBar_dB, P,'k--',...
-            %         'linewidth',1.2)
-            % str = colorz(j)+'o'
-            
-            % if k == 4
-            %     color = 'm--'
-            % else
-            %     color = colorz(k)
-            % end
-            semilogy(gammaBar_dB, Pb, colorz(k),...
-                    gammaBar_dB, P,'k--',...
-                    'linewidth',1.2)
-            
-            hold on
-        end
+
+for k = 1:length(z)
+    k
+    for w = 1:length(ms)
+        simulation_params = [alfa(1), mu, ms(w), z(k, 1), Ao, Hl;
+                             alfa(2), mu, ms(w), z(k, 2), Ao, Hl;];
+
+        analit_params = [alfa(1), mu, ms(w), z(k, 1);
+                         alfa(2), mu, ms(w), z(k, 2);];
+
+        BEP_sim = channel(M, N, simulation_params, Nc, simu_gammaBar_c);        
+        [BEP] = BEP_analit(N, analit_params, rho, analit_gammaBar_c);
+        [BEP_asy] = BEP_asymptotic(N, analit_params, rho, analit_gammaBar_c);
+
+        h(cont)   = semilogy(analit_gammaBar_dB, BEP, colorz(k),'linewidth',1.2); hold on;
+        h(cont+1) = semilogy(analit_gammaBar_dB, BEP_asy,'k--', 'linewidth',1.2);hold on;
+        h(cont+2) = semilogy(simu_gammaBar_dB, BEP_sim, 'rx', 'linewidth', 1.2);hold on;
+        cont = cont+3;
+        
     end
 end
 
-axis([min(GBdB) max(GBdB) 1e-5 1])
+execution_time = toc;
+disp(['Execution time: ' num2str(execution_time) 's']);
+
+axis([min(simu_gammaBar_dB) max(simu_gammaBar_dB) 1e-5 1])
 tam_fonte = 11;
-legend('FontSize', tam_fonte)
+legend('FontSize', tam_fonte, 'Location', 'southwest')
 % legend("$z_1="+num2str(z(1,1))+", z_2="+num2str(z(1,2))+"$", '', "$z_1="+num2str(z(2,1))+", z_2="+num2str(z(2,2))+"$", '', "$z_1="+num2str(z(3,1))+", z_2="+num2str(z(3,2))+"$", '', "$z_1="+num2str(z(4,1))+", z_2="+num2str(z(4,2))+"$", 'Asymptotic', 'Location', 'southwest')
-legend("$z_1="+num2str(z(1,1))+", z_2="+num2str(z(1,2))+"$", '', "$z_1="+num2str(z(2,1))+", z_2="+num2str(z(2,2))+"$", '', "$z_1="+num2str(z(3,1))+", z_2="+num2str(z(3,2))+"$", '', "Non-pointing errors", 'Asymptotic', 'Location', 'southwest')
+% legend("$z_1="+num2str(z(1,1))+", z_2="+num2str(z(1,2))+"$", '', "$z_1="+num2str(z(2,1))+", z_2="+num2str(z(2,2))+"$", '', "$z_1="+num2str(z(3,1))+", z_2="+num2str(z(3,2))+"$", '', "Non-pointing errors", 'Asymptotic', 'Location', 'southwest')
+legend([h(1), h(4), h(7), h(10), h(11), h(12)], {"$z_1="+num2str(z(1,1))+", z_2="+num2str(z(1,2))+"$" , "$z_1="+num2str(z(2,1))+", z_2="+num2str(z(2,2))+"$",...
+                                                 "$z_1="+num2str(z(3,1))+", z_2="+num2str(z(3,2))+"$" , "Non-pointing errors", "Asymptotic", "Simulated"});
 ax = gca;
 ax.FontSize = 13;
 
@@ -108,14 +110,14 @@ xlabel("SNR (dB)", 'FontSize', 14)
 grid on
 
 if rho == 1
-    modulation = 'BPSK';
+    modulation = '(BPSK)';
 elseif rho == 0.5
-    modulation = 'QPSK';
+    modulation = '(QPSK)';
 end
 
 %textbox com valores
-dim = [0.15 0.32 0.2 0.2];
-str = {"$\alpha_1 ="+num2str(alfa(1))+"$", "$\alpha_2 ="+num2str(alfa(2))+"$", "$\mu ="+num2str(mu)+"$", "$m ="+num2str(ms)+"$","$\rho="+num2str(rho)+"$ (BSPK)"};
+dim = [0.15 0.45 0.2 0.2];
+str = {"$\alpha_1 ="+num2str(alfa(1))+"$", "$\alpha_2 ="+num2str(alfa(2))+"$", "$\mu ="+num2str(mu)+"$", "$m ="+num2str(ms)+"$","$\rho="+num2str(rho)+"$ "+modulation};
 annotation('textbox',dim,'interpreter','latex','String',str,'FitBoxToText','on', 'FontSize', tam_fonte);
 
-%GBdB,cdfG(gth(1),gammaBar),'-',
+%simu_gammaBar_dB,cdfG(gth(1),gammaBar),'-',

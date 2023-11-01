@@ -10,7 +10,11 @@ function [OP] = OP_asymptotic(N, params, gamma_th, gammaBar)
 % ms: shadowing
 % z: pointing error
 % gamma_th: OP treshold
-% gammaBar: SNR vector
+% gammaBar: SNR matriz per channel
+% gammaBar = [          , channel1, channel2, ..., channeln;
+%              gammaBar1,     y1.1,     y1.2, ...,     y1.n;
+%                    ...,      ...,      ..., ...,      ...;
+%             gammaBar15,    y15.1,    y15.2, ...,    y15.n;]
 
 channels = N;
 points = length(gammaBar);

@@ -10,7 +10,11 @@ function [OP] = OP_analit(N, params, gamma_th, gammaBar)
 % ms: shadowing
 % z: pointing error
 % gamma_th: OP treshold
-% gammaBar: SNR vector
+% gammaBar: SNR matriz per channel
+% gammaBar = [          , channel1, channel2, ..., channeln;
+%              gammaBar1,     y1.1,     y1.2, ...,     y1.n;
+%                    ...,      ...,      ..., ...,      ...;
+%             gammaBar15,    y15.1,    y15.2, ...,    y15.n;]
 
 channels = N;
 points = length(gammaBar);
@@ -34,12 +38,12 @@ end
 
 Xi = (Xi .* sqrt(gamma_th));% ./ sqrt(gammaBar);
 
-% m = 2N; n = N+1; p = 2N+1; q = 2N+1;
 alphas = params(1:N, 1).';
 mus = params(1:N, 2).';
 mss = params(1:N, 3).';
 zs = params(1:N, 4).';
 
+% m = 2N; n = N+1; p = 2N+1; q = 2N+1;
 an = [1, (1 - mss)];                 An = [1, (1./alphas)];   
 ap = [(((zs.^2)./alphas) + 1)];      Ap = [(1./alphas)];
 bm = [mus, ((zs.^2)./alphas)];       Bm = [(1./alphas), (1./alphas)];
