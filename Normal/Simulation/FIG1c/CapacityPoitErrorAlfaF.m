@@ -2,8 +2,7 @@ clear all
 close all
 clc
 
-% Piece of code to calculate the Outage Probability
-% Brito - 28/09/2022
+% Piece of code to calculate the Capacity
 
 set(0,'defaulttextinterpreter','latex');
 p = [0,0,0; 0,0,0; 0,0,0];

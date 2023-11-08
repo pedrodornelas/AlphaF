@@ -1,35 +1,40 @@
-function [gammaBar_dB, P] = CAP_asymptotic(N, alpha, mu, ms, bounds, points, z)
-% Function to implement the asymptotic expression 
-% for the alpha-F fading and AWGGN distributions.
-%
-% INPUTS:
-% alpha - positive power parameter
-% beta - 
-% mu - number of multipath clusters
-% ms - shadowing parameter
-% points - number of points
-%
-% OUTPUTS:
-% P - points that form the asymptote
+function [CAP] = CAP_asymptotic(N, params, gammaBar)
+% params is a matrix of params cascaded system
+% params = [Channel 1: alpha, mu, ms, z;
+%           Channel 2: alpha, mu, ms, z;
+%           ...
+%           Channel n: alpha, mu, ms, z]
 
-% generate independent variable vector
-L = bounds(1);
-U = bounds(2);
-gammaBar_dB = linspace(L, U, points);
-%gammaBar = gpuArray.linspace(L, U, points);
+% alpha: non-linearity
+% mu: number of multipaths
+% ms: shadowing
+% z: pointing error
+% gamma_th: OP treshold
+% gammaBar: SNR matriz per channel
+% gammaBar = [          , channel1, channel2, ..., channeln;
+%              gammaBar1,     y1.1,     y1.2, ...,     y1.n;
+%                    ...,      ...,      ..., ...,      ...;
+%             gammaBar15,    y15.1,    y15.2, ...,    y15.n;]
 
-gammaBar = db2pow(gammaBar_dB);
+channels = N;
+points = length(gammaBar);
 
-Xi = ones(1, length(gammaBar));
+Xi = 1;
 S = 0;
-for j = 1:N
+for c = 1:N
+
+    alpha = params(c,1);
+    mu = params(c,2);
+    ms = params(c,3);
+    z = params(c,4);
+
     Psi = (mu/(ms-1)) ^ (1/alpha);
-    Xi = Xi .* (Psi .* (z ./ (sqrt(gammaBar .* (z^2+2)))));
+    Xi = Xi .* ((Psi .* z) ./ sqrt(gammaBar(:, c) .* (z^2+2)));
 
     frac = (z^2) / alpha;
     S = S + (2/alpha)*(psi(mu) + psi(frac) - psi(ms) - psi(frac+1));
 end
 
-P = (2*log2(1 ./ Xi)) + (log2(exp(1))*S);
+CAP = (2*log2(1 ./ Xi)) + (log2(exp(1))*S);
 
 end

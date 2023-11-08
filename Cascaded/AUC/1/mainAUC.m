@@ -2,13 +2,13 @@ clear all
 close all
 clc
 
-% Piece of code to calculate the Outage Probability
+% Piece of code to calculate the AUC
 % Pedro Henrique Dornelas Almeida - 05/05/2023
 
 set(0,'defaulttextinterpreter','latex');
 set(groot,'defaultAxesTickLabelInterpreter','latex');
 
-% SNRs -- Amostragem dos valores observáveis
+% SNRs -- Amostragem dos valores teoricos
 L = 0;    %db
 U = 30;   %db
 points = 1e2;
