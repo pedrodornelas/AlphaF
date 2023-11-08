@@ -36,7 +36,7 @@ for c = 1:N
     preH = preH * (z^2/(alpha * gamma(mu) * gamma(ms)));
 end
 
-Xi = (Xi .* sqrt(gamma_th));% ./ sqrt(gammaBar);
+Xi = (Xi .* sqrt(gamma_th))'; % ./ sqrt(gammaBar);
 
 alphas = params(1:N, 1).';
 mus = params(1:N, 2).';

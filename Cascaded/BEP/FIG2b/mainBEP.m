@@ -2,8 +2,11 @@ clear all
 close all
 clc
 
-% Piece of code to calculate the Outage Probability
-% Pedro Henrique Dornelas Almeida - 05/05/2023
+% Piece of code to calculate the BEP - Bit Error Probability
+% Pedro Henrique Dornelas Almeida - 08/11/2023
+
+functions_path = "functions";
+addpath(functions_path);
 
 set(0,'defaulttextinterpreter','latex');
 set(groot,'defaultAxesTickLabelInterpreter','latex');
@@ -31,9 +34,9 @@ alfa = [2.2, 2.5];
 mu = 1;
 ms = [2, 90];
 
-analit_gammaBar_c = ones( length(analit_gammaBar) , max(N));
+analit_gammaBar_c = 10.^(0.1 * ones( length(analit_gammaBar) , max(N)));
 analit_gammaBar_c(:, 1) = analit_gammaBar; % variar só do primeiro canal...
-simu_gammaBar_c = ones( length(simu_gammaBar) , max(N));
+simu_gammaBar_c = 10.^(0.1 * ones( length(simu_gammaBar) , max(N)));
 simu_gammaBar_c(:, 1) = simu_gammaBar; % variar só do primeiro canal...
 
 % Erro de apontamento

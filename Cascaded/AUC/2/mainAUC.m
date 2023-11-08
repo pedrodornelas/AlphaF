@@ -15,8 +15,10 @@ U = 70;   %db
 points = 100;
 bounds = [L U]; %dB gammaBar limits
 
-GBdB = linspace(L, U, 15); % SNR em dB
-gammaBar = 10.^(0.1*GBdB); % SNR linear
+analit_gammaBar_dB = linspace(L, U, points);
+analit_gammaBar = 10.^(0.1.*analit_gammaBar_dB);
+simu_gammaBar_dB = linspace(L, U, 15); % SNR em dB
+simu_gammaBar = 10.^(0.1.*simu_gammaBar_dB); % SNR linear
 
 % Parâmetros da Distribuição Alpha F - Cascaded
 N = [2];              % nº estações relay
@@ -31,6 +33,11 @@ ms = [3.5, 3.5, 3.5];
 
 % Parâmetro AUC
 u = 2;
+
+analit_gammaBar_c = ones( length(analit_gammaBar) , max(N));
+analit_gammaBar_c(:, 1) = analit_gammaBar; % variar só do primeiro canal...
+simu_gammaBar_c = ones( length(simu_gammaBar) , max(N));
+simu_gammaBar_c(:, 1) = simu_gammaBar; % variar só do primeiro canal...
 
 % Erro de apontamento
 % z = [0.6, 1.0, 1.5, 13];

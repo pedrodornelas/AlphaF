@@ -6,6 +6,9 @@ clc
 % Piece of code to calculate the Outage Probability
 % Pedro Henrique Dornelas Almeida - 05/05/2023
 
+functions_path = "functions";
+addpath(functions_path);
+
 set(0,'defaulttextinterpreter','latex');
 set(groot,'defaultAxesTickLabelInterpreter','latex');
 
@@ -33,9 +36,9 @@ alfa = 2.5;
 mu = [1.5, 1.7, 2];
 ms = 2;
 
-analit_gammaBar_c = ones( length(analit_gammaBar) , max(N));
+analit_gammaBar_c = 10.^(0.1 * ones( length(analit_gammaBar) , max(N)));
 analit_gammaBar_c(:, 1) = analit_gammaBar; % variar só do primeiro canal...
-simu_gammaBar_c = ones( length(simu_gammaBar) , max(N));
+simu_gammaBar_c = 10.^(0.1 * ones( length(simu_gammaBar) , max(N)));
 simu_gammaBar_c(:, 1) = simu_gammaBar; % variar só do primeiro canal...
 
 % Erro de apontamento
@@ -57,7 +60,7 @@ if ms <= (4/alfa)
 end
 
 % Parâmetros da simulação
-Nc = 1e3; % Número de pontos
+Nc = 1e6; % Número de pontos
 rc = 1;   % hat r
 
 % Perda de percurso
@@ -96,7 +99,7 @@ for k = 1:size(z, 1)
         % [k j]
         % Gain = general_gain_cascaded(N(j), simulation_params, Nc, simu_gammaBar);
         Gain = gain_total(:,:,N(j)).';
-        size(Gain)
+        % size(Gain)
         for i = 1:length(simu_gammaBar)
             flagOP = sum(Gain(i,:).^2 <= gamma_th);
             Pout(i) = flagOP/Nc;

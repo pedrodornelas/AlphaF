@@ -10,12 +10,14 @@ set(groot,'defaultAxesTickLabelInterpreter','latex');
 
 % SNRs -- Amostragem dos valores teoricos
 L = 0;    %db
-U = 30;   %db
+U = 70;   %db
 points = 1e2;
 bounds = [L U]; %dB gammaBar limits
 
-GBdB = linspace(L, U, 15); % SNR em dB
-gammaBar = 10.^(0.1*GBdB); % SNR linear
+analit_gammaBar_dB = linspace(L, U, points);
+analit_gammaBar = 10.^(0.1.*analit_gammaBar_dB);
+simu_gammaBar_dB = linspace(L, U, 15); % SNR em dB
+simu_gammaBar = 10.^(0.1.*simu_gammaBar_dB); % SNR linear
 
 % Parâmetros da Distribuição Alpha F - Cascaded
 N = 2;              % nº estações relay
@@ -26,11 +28,19 @@ ms = 2;
 % Parâmetro AUC
 u = 2;
 
+analit_gammaBar_c = ones( length(analit_gammaBar) , max(N));
+analit_gammaBar_c(:, 1) = analit_gammaBar; % variar só do primeiro canal...
+simu_gammaBar_c = ones( length(simu_gammaBar) , max(N));
+simu_gammaBar_c(:, 1) = simu_gammaBar; % variar só do primeiro canal...
+
 % Erro de apontamento
 % z = [0.6, 1.0, 1.5, 13];
 % z = [0.6, 0.8; 1.0, 1.1; 3, 3.3; 14, 15];
 % z = [0.6, 0.8; 1.0, 1.1; 1.5, 1.6; 3, 3.3; 14, 15];
-z = [0.6, 0.8; 1.0, 1.1; 1.5, 1.6; 14, 15];
+z = [0.6, 0.8; 
+     1.0, 1.1; 
+     1.5, 1.6; 
+      14,  15];
 
 for i=1:length(alpha)
     if ms <= (4/alpha(i))
@@ -47,15 +57,17 @@ rc = 1;   %
 Hl = 1.00;
 
 % Inicialização dos vetores -- Prealocation
-Pout = zeros(length(gammaBar));
-Ao = zeros(length(gammaBar));
+% sim_AUC = ones(1, length(simu_gammaBar));
+% sim_AUC = simulation_AUC(Nc, simu_gammaBar);
 
 colorz = 'brgmp';
 
 for w = 1:length(z)
+    analit_params = [alpha(1), mu, ms, z(w, 1);
+                     alpha(2), mu, ms, z(w, 2);];
         
-    [gammaBar_dB, auc] = AUC_analit(N, alpha, mu, ms, bounds, points, z(w, :), u);
-    [gammaBar_dB, auc_asymp] = AUC_asymptotic(N, alpha, mu, ms, bounds, points, z(w, :), u);
+    [auc] = AUC_analit(N, analit_params, u, analit_gammaBar_c);
+    [auc_asymp] = AUC_asymptotic(N, analit_params, u, analit_gammaBar_c);
 
     figure(1)
     % plot(GBdB, Pout(:,1),'rx',...
@@ -69,8 +81,8 @@ for w = 1:length(z)
     % else
     %     color = colorz(w)
     % end
-    plot(gammaBar_dB, auc, colorz(w),...
-         gammaBar_dB, auc_asymp,'k--',...
+    plot(analit_gammaBar_dB, auc, colorz(w),...
+         analit_gammaBar_dB, auc_asymp,'k--',...
          'linewidth', 1.2)
 
     % plot(gammaBar_dB, auc, colorz(w),...
@@ -79,7 +91,7 @@ for w = 1:length(z)
     hold on
 end
 
-axis([min(GBdB) max(GBdB) 0.5 1])
+axis([min(simu_gammaBar_dB) max(simu_gammaBar_dB) 0.5 1])
 tam_fonte = 11;
 legend('FontSize', tam_fonte)
 % legend("$z_1="+num2str(z(1,1))+", z_2="+num2str(z(1,2))+"$", '', "$z_1="+num2str(z(2,1))+", z_2="+num2str(z(2,2))+"$", '', "$z_1="+num2str(z(3,1))+", z_2="+num2str(z(3,2))+"$", '', "$z_1="+num2str(z(4,1))+", z_2="+num2str(z(4,2))+"$", 'Asymptotic', 'Location', 'southwest')

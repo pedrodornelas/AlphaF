@@ -34,7 +34,7 @@ for c = 1:N
     preH = preH * (z^2/(alpha * gamma(mu) * gamma(ms)));
 end
 
-Xi = (Xi .* sqrt(gamma_th));% ./ sqrt(gammaBar);
+Xi = (Xi .* sqrt(gamma_th))';% ./ sqrt(gammaBar);
 
 onesAn = ones(1, N);
 

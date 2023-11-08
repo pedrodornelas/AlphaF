@@ -42,7 +42,7 @@ for c = 1:channels
     for i = 1:length(gammaBar)
         [c i]
         % random gains
-        Hf = gainAF(alpha, mu, ms, rc, Nc, -1e-3); % Gain Alpha-F
+        Hf = gainAF(alpha, mu, ms, rc, Nc, 1e-3); % Gain Alpha-F
         Hp = PointError(z, Ao(i), Nc);             % Gain Pointing Error
         % size(Gains(:,i,c))
         % size(Hl(:) .* Hf(:) .* Hp(:))
