@@ -34,9 +34,11 @@ alfa = [2.2, 2.5];
 mu = 1;
 ms = [2];
 
-analit_gammaBar_c = 10.^(0.1 * ones( length(analit_gammaBar) , max(N)));
+analit_gammaBar_c = db2pow(1) * (ones( length(analit_gammaBar) , max(N)));
+% analit_gammaBar_c = (ones( length(analit_gammaBar) , max(N)));
 analit_gammaBar_c(:, 1) = analit_gammaBar; % variar só do primeiro canal...
-simu_gammaBar_c = 10.^(0.1 * ones( length(simu_gammaBar) , max(N)));
+simu_gammaBar_c = db2pow(1) * (ones( length(simu_gammaBar) , max(N)));
+% simu_gammaBar_c = (ones( length(simu_gammaBar) , max(N)));
 simu_gammaBar_c(:, 1) = simu_gammaBar; % variar só do primeiro canal...
 
 % Erro de apontamento
@@ -56,8 +58,10 @@ for i=1:length(alfa)
 end
 
 % Parâmetros da simulação
-Nc = 1e4; % Número de pontos
+Nc = 1e6; % Número de pontos
 Ao = 0.8;
+% Ao = 1;
+rc = 1;
 
 % Perda de percurso
 Hl = 1.00;
@@ -67,6 +71,7 @@ colorz = 'brgmp';
 
 tic;
 
+
 figure(1)
 cont = 1;
 
@@ -74,6 +79,9 @@ cont = 1;
 for k = 1:length(z)
     k
     for w = 1:length(ms)
+        % simulation_params = [alfa(1), mu, ms(w), z(k, 1), rc, Hl;
+        %                      alfa(2), mu, ms(w), z(k, 2), rc, Hl;];
+
         simulation_params = [alfa(1), mu, ms(w), z(k, 1), Ao, Hl;
                              alfa(2), mu, ms(w), z(k, 2), Ao, Hl;];
 
@@ -86,7 +94,7 @@ for k = 1:length(z)
 
         h(cont)   = semilogy(analit_gammaBar_dB, BEP, colorz(k),'linewidth',1.2); hold on;
         h(cont+1) = semilogy(analit_gammaBar_dB, BEP_asy,'k--', 'linewidth',1.2);hold on;
-        h(cont+2) = semilogy(simu_gammaBar_dB, BEP_sim, 'rx', 'linewidth', 1.2);hold on;
+        h(cont+2) = semilogy(simu_gammaBar_dB, BEP_sim, [colorz(k),'x'], 'linewidth', 1.2);hold on;
         cont = cont+3;
         
     end

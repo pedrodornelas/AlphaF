@@ -59,6 +59,8 @@ gain_total = cascaded_gain(gain_channels);
 % Gain = (Hl(:).*Hf(:).*Hp(:)).';
 
 Gain = gain_total(:, :, N).';
+% Gain = Gain./sqrt(mean(Gain.^2));
+
 
 r = s(dados_dec+1) + n./Gain;
 

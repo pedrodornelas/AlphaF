@@ -1,6 +1,6 @@
-pyverclear all
-% close all
-% clc
+clear all
+close all
+clc
 
 % Piece of code to calculate the Capacity
 % Pedro Henrique Dornelas Almeida - 08/11/2023
@@ -46,9 +46,9 @@ Hl = 1.00; % Perda de percurso
 % Inicialização dos vetores -- Prealocation
 CAP_sim = zeros(1, length(simu_gammaBar));
 
-analit_gammaBar_c = 10.^(0.1 * ones( length(analit_gammaBar) , max(N)));
+analit_gammaBar_c = db2pow(1) * (ones( length(analit_gammaBar) , max(N)));
 analit_gammaBar_c(:, 1) = analit_gammaBar; % variar só do primeiro canal...
-simu_gammaBar_c = 10.^(0.1 * ones( length(simu_gammaBar) , max(N)));
+simu_gammaBar_c = db2pow(1) * (ones( length(simu_gammaBar) , max(N)));
 simu_gammaBar_c(:, 1) = simu_gammaBar; % variar só do primeiro canal...
 
 colorz = 'brgmp';

@@ -30,13 +30,16 @@ for c = 1:channels
     mu = params(c,2);
     ms = params(c,3);
     z = params(c,4);
+    % rc = params(c,5);
     Ao = params(c,5);
     Hl = params(c,6);
 
     % Gain = 1;
 
     % Ao = sqrt(gammaBar(:, c) .* (2+z^2)) ./ (rc*z*Hl);
-    rc = sqrt(1*(2+z^2))/(Ao*z*Hl);
+    % rc = sqrt(gammaBar(:,c).*(2+z^2)) ./ (Ao*z*Hl);
+    % rc = sqrt(db2pow(1).*(2+z^2)) ./ (Ao*z*Hl);
+    rc = sqrt(1.*(2+z^2)) ./ (Ao*z*Hl);
     for i = 1:length(gammaBar)
         [c i]
         % random gains

@@ -74,7 +74,7 @@ end
 axis([min(simu_gammaBar_dB) max(simu_gammaBar_dB) 0.5 1])
 tam_fonte = 11;
 legend('FontSize', tam_fonte);
-legend("Rayleigh", "Simulated");
+legend("Rayleigh", "Simulated", "Location", "southeast");
 ax = gca;
 ax.FontSize = 13;
 
