@@ -28,7 +28,7 @@ alpha = [2.0, 3.7];  % non-linearity
 mu = 1.8;            % multipath cluster
 ms = 2.5;            % shadowing
 % Erro de apontamento
-z = [0.6, 1.0, 1.5, 8];
+z = [0.7, 1.0, 1.3, 8];
 % z = [0.6, 0.8; 1.0, 1.1; 3, 3.3; 14, 15];
 
 for i=1:length(alpha)
@@ -56,7 +56,7 @@ styleA = 'xo';
 
 tic;
 
-close(figure(1));
+% close(figure(1));
 figure(1)
 h = [];
 cont = 1;
@@ -117,13 +117,13 @@ str = {"$\mu ="+num2str(mu)+"$", "$m ="+num2str(ms)+"$"};
 annotation('textbox',dim,'interpreter','latex','String',str,'FitBoxToText','on', 'FontSize', tam_fonte);
 
 %arrow
-X = [0.698214285714285,0.723214285714285];
-Y = [0.530952380952381,0.400000000000001];
+X = [0.541071428571429,0.564285714285712];
+Y = [0.452380952380953,0.345238095238099];
 annotation('arrow', X, Y);
 
 % text
-X = 34.486267281106;
-Y = 3.06601769911504;
+X = 23.77198156682029;
+Y = 2.415130125150542;
 str = {"$\alpha=\{"+num2str(alpha(2))+","+num2str(alpha(1))+"\}$"};
 text(X, Y, str, 'Interpreter', 'latex','FontSize', tam_fonte);
 

@@ -73,24 +73,10 @@ for c = 1:curvas
         [gammaBar_dB, auc_asymp] = AUC_asymptotic(N(w), alpha(c), mu(c, 1:n), ms(c), bounds, points, z(w, 1:n), u);
 
         figure(1)
-        % plot(GBdB, Pout(:,1),'rx',...
-        %         gammaBar_dB, auc, colorz(j),...
-        %         gammaBar_dB, P,'w--',...
-        %         'linewidth',1.2)
-        % str = colorz(j)+'o'
-            
-        % if w == 4
-        %     color = 'm--'
-        % else
-        %     color = colorz(w)
-        % end
         
         plot(gammaBar_dB, auc, colorz(c),...
              gammaBar_dB, auc_asymp,'k--',...
-             'linewidth', 1.2)
-
-        % plot(gammaBar_dB, auc, colorz(w),...
-        %      'linewidth', 1.2)    
+             'linewidth', 1.2)  
         
         hold on
     end
@@ -101,7 +87,7 @@ tam_fonte = 11;
 legend('FontSize', tam_fonte)
 curvas_str = ["Nakagami-${\cal F}$ ($\mu="+num2str(mu(1,1))+"$)", "Fisher-Snedecor ${\cal F}$ ($\mu="+num2str(mu(2,1))+"$)", "Weibull-${\cal F}$ ($\alpha="+num2str(alpha(3))+"$)"];
 % legend(curvas_str(1), '','','', curvas_str(2), '','','',curvas_str(3), 'Asymptotic', 'Location', 'southeast')
-legend(curvas_str(1), '', curvas_str(2), '',curvas_str(3), 'Asymptotic', 'Location', 'southeast')
+legend(curvas_str(1), '', curvas_str(2), '',curvas_str(3), 'Simulated', 'Location', 'southeast')
 ax = gca;
 ax.FontSize = 13;
 

@@ -35,10 +35,14 @@ for c = 1:channels
 
     % Gain = 1;
 
-    % Ao = sqrt(gammaBar(:, c) .* (2+z^2)) ./ (rc*z*Hl);
-    rc = sqrt(1*(2+z^2))/(Ao*z*Hl);
     for i = 1:length(gammaBar)
         [c i]
+        if c == 1 && N ~= 1
+            gamma_b = gammaBar(i,c);
+        else
+            gamma_b = 1;
+        end
+        rc = sqrt(gamma_b.*(2+z^2)) ./ (Ao*z*Hl);
         % random gains
         Hf = gainAF(alpha, mu, ms, rc, Nc, 1e-3); % Gain Alpha-F
         Hp = PointError(z, Ao, Nc);             % Gain Pointing Error

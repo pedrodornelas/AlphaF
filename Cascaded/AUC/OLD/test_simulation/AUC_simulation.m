@@ -2,7 +2,7 @@ function [AUC] = AUC_simulation(Nc, gammaBar)
 
 %% Simulado
 N_runs = Nc; % numero de eventos de Monte Carlo para o calculo de cada valor de AUC
-N_limiar = 1000; % numeros de pontos na ROC
+N_limiar = 500; % numeros de pontos na ROC
 N = 8; % numero de amostras coletadas por radio
 u = N/2;
 N_auc = 100;%numero de valores de AUCs que sera usado para o calculo da AUC media
@@ -46,7 +46,7 @@ for j = 1:length(gammaBar)
           for i=1:N_runs
                % h = 1; %canal AWGN
                h = sqrt(1/2.*randn.^2+1/2.*randn.^2); %canal Rayleigh
-               % h = h./mean(Pot_h^2);
+               % h = h./sqrt(mean(h.^2));
 
                I = randi([0 1]);
                w = (sigma_ruido).*randn(N_limiar,N);

@@ -42,7 +42,7 @@ simu_gammaBar_c = 10.^(0.1 * ones( length(simu_gammaBar) , max(N)));
 simu_gammaBar_c(:, 1) = simu_gammaBar; % variar só do primeiro canal...
 
 % Erro de apontamento
-z = [0.6, 0.8;
+z = [0.7, 0.8;
      1  , 1.1;
      1.5, 1.6;
      8 , 9 ;];

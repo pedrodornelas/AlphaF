@@ -32,28 +32,29 @@ M = 2;
 N = 2;    % nº estações relay
 alfa = [2.2, 2.5];
 mu = 1;
-ms = [2, 90];
+ms = [2, 35];
 
-analit_gammaBar_c = 10.^(0.1 * ones( length(analit_gammaBar) , max(N)));
+analit_gammaBar_c = db2pow(1) * (ones( length(analit_gammaBar) , max(N)));
 analit_gammaBar_c(:, 1) = analit_gammaBar; % variar só do primeiro canal...
-simu_gammaBar_c = 10.^(0.1 * ones( length(simu_gammaBar) , max(N)));
+simu_gammaBar_c = db2pow(1) * (ones( length(simu_gammaBar) , max(N)));
 simu_gammaBar_c(:, 1) = simu_gammaBar; % variar só do primeiro canal...
 
 % Erro de apontamento
 % z = [0.6, 0.8; 1.0, 1.1; 1.5, 1.6; 14, 15];
-z = [0.6, 0.8; 
+z = [0.7, 0.8; 
      1.0, 1.1; 
      3, 3.3];
 
 for i=1:length(alfa)
-    if ms <= (4/alfa(i))
+    if ms(i) <= (4/alfa(i))
         fprintf('ms > 4/alpha not met\n')
         error
     end
 end
 
 % Parâmetros da simulação
-Nc = 1e3; % Número de pontos
+Nc = 5e
+6; % Número de pontos
 Ao = 0.8;
 
 % Perda de percurso
@@ -79,20 +80,15 @@ for k = 1:length(z)
         [BEP_asy] = BEP_asymptotic(N, analit_params, rho, analit_gammaBar_c);
 
         h(cont)   = semilogy(analit_gammaBar_dB, BEP, colorz(k),'linewidth',1.2); hold on;
-        h(cont+1) = semilogy(analit_gammaBar_dB, BEP_asy,'k--', 'linewidth',1.2);hold on;
-        h(cont+2) = semilogy(simu_gammaBar_dB, BEP_sim, 'rx', 'linewidth', 1.2);hold on;
+        h(cont+1) = semilogy(analit_gammaBar_dB, BEP_asy,'k--', 'linewidth',1.2); hold on;
+        h(cont+2) = semilogy(simu_gammaBar_dB, BEP_sim, 'rx', 'linewidth', 1.2); hold on;
         cont = cont+3;
-        
-        hold on
+
     end
 end
 
 execution_time = toc;
-
-hours = fix(execution_time / 3600);
-minutes = fix(mod(execution_time, 3600) / 60);
-seconds = fix(mod(execution_time, 60));
-format_time = sprintf('%02dh%02dm%02ds', hours, minutes, seconds);
+format_time = executionTime(execution_time);
 disp(['Execution time: ' format_time]);
 
 axis([min(simu_gammaBar_dB) max(simu_gammaBar_dB) 1e-5 1])
@@ -123,7 +119,7 @@ str = {"$\alpha_1 ="+num2str(alfa(1))+"$", "$\alpha_2 ="+num2str(alfa(2))+"$", "
 annotation('textbox',dim,'interpreter','latex','String',str,'FitBoxToText','on', 'FontSize', tam_fonte);
 
 %text arrow
-X = [0.76,0.73];
-Y = [0.82,0.71];
+X = [0.788571428571429,0.758571428571429];
+Y = [0.797142857142861,0.687142857142861];
 str = {"$m=\{"+num2str(ms(1))+",\infty \}$"};
 annotation('textarrow', X, Y, 'String', str, 'interpreter', 'latex', 'FontSize', 13);

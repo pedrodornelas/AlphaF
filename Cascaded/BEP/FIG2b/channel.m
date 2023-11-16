@@ -44,8 +44,8 @@ qtd_dados = length(dados_dec);
 n = zeros(length(gammaBar), qtd_dados);
 for i = 1:length(gammaBar)
     % gammaBar(i, 1)
-    n(i, :) = 1j*normrnd(0,1/sqrt(2*gammaBar(i, 1)),[1 qtd_dados])+...
-                 normrnd(0,1/sqrt(2*gammaBar(i, 1)),[1 qtd_dados]);
+    n(i, :) = 1j*normrnd(0,1/sqrt(2*gammaBar(i, N)),[1 qtd_dados])+...
+                 normrnd(0,1/sqrt(2*gammaBar(i, N)),[1 qtd_dados]);
     
 end
 
@@ -60,7 +60,7 @@ gain_total = cascaded_gain(gain_channels);
 
 Gain = gain_total(:, :, N).';
 
-r = s(dados_dec+1) + n./Gain;
+r = Gain.*s(dados_dec+1) + n;
 
 bep = zeros(1, length(gammaBar));
 for i = 1:length(gammaBar)

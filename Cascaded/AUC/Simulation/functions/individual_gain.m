@@ -1,10 +1,10 @@
 function Gains = individual_gain(N, params, Nc, gammaBar)
 
 % params is a matrix of params cascaded system
-% params = [Channel 1: alpha, mu, ms, z, Ao, Hl;
-%           Channel 2: alpha, mu, ms, z, Ao, Hl;
+% params = [Channel 1: alpha, mu, ms, z, rc, Hl;
+%           Channel 2: alpha, mu, ms, z, rc, Hl;
 %           ...
-%           Channel n: alpha, mu, ms, z, Ao, Hl;]
+%           Channel n: alpha, mu, ms, z, rc, Hl;]
 % cascaded_gain = gain_channel1 * gain_channel2 * ... * gain_channeln
 
 % N: number of channels
@@ -16,7 +16,11 @@ function Gains = individual_gain(N, params, Nc, gammaBar)
 % rc: hat r (average power)
 % Nc: number of simulation points
 % Hl: path loss
-% gammaBar: SNR vector
+% gammaBar: SNR matriz per channel
+% gammaBar = [          , channel1, channel2, ..., channeln;
+%              gammaBar1,     y1.1,     y1.2, ...,     y1.n;
+%                    ...,      ...,      ..., ...,      ...;
+%             gammaBar15,    y15.1,    y15.2, ...,    y15.n;]
 
 channels = N;
 columns = size(params, 2);
@@ -24,28 +28,29 @@ columns = size(params, 2);
 Gains = ones(Nc, length(gammaBar), N);
 
 for c = 1:channels
-    % c
 
     alpha = params(c,1);
     mu = params(c,2);
     ms = params(c,3);
     z = params(c,4);
-    Ao = params(c,5);
+    rc = params(c,5);
+    % Ao = params(c,5);
     Hl = params(c,6);
 
     % Gain = 1;
 
+    % Ao = sqrt(gammaBar(:, c) .* (2+z^2)) ./ (rc*z*Hl);
     for i = 1:length(gammaBar)
-        [c i]
+        ci = [c i]
         if c == 1 && N ~= 1
-            gamma_b = gammaBar(i,c);
+            gamma_b = gammaBar(i, c);
         else
             gamma_b = 1;
         end
-        rc = sqrt(gamma_b.*(2+z^2)) ./ (Ao*z*Hl);
         % random gains
+        Ao = sqrt(gamma_b * (2+z^2)) / (rc*z*Hl);
         Hf = gainAF(alpha, mu, ms, rc, Nc, 1e-3); % Gain Alpha-F
-        Hp = PointError(z, Ao, Nc);               % Gain Pointing Error
+        Hp = PointError(z, Ao, Nc);             % Gain Pointing Error
         % size(Gains(:,i,c))
         % size(Hl(:) .* Hf(:) .* Hp(:))
         Gains(:,i,c) = (Hl(:) .* Hf(:) .* Hp(:));
