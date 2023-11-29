@@ -11,7 +11,7 @@ function [status] = verify_python()
     % Verifique o sistema operacional
     if ispc
         % Windows
-        command = 'where python3';
+        command = 'where python3.9';
     else
         % Linux
         command = 'which python3';

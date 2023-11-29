@@ -12,10 +12,21 @@ verify_python();
 % Se o caminho do Python foi encontrado, continue com o código
 disp('Continuing with code...');
 
-% ms = 2;
-% alpha = 2;
-% mu = 1;
-% z = 1.5;
+ms = [2.3];
+alpha = [2, 2.5];
+mu = [1, 1];
+z = [1.5, 1.3];
+
+for j = 1:length(alpha)
+    j
+    if ms <= (4/alpha(j))
+        error("ms > 4/alpha not met. Exiting...")
+    end
+end
+
+params = [alpha(1), mu(1), ms, z(1);
+          alpha(2), mu(2), ms, z(2);]
+
 
 % % FoxH "arguments" pre computable assuming constant parameters
 % % Ai = (1 - ms, 1/alpha)
@@ -40,9 +51,9 @@ disp('Continuing with code...');
 
 % % compute analytic Outage Probability
 % % a -> top right
-% % b -> bot right
+% % b -> bottom right
 % % c -> top left
-% % d -> bot left
+% % d -> bottom left
 
 % % Parameters for FoxH
 % a = [[(1,1), Ai1, Ai2, Bi1, Bi2]] * 1
@@ -52,7 +63,8 @@ disp('Continuing with code...');
 
 % mn = [(0, 1)] + [(4, 3)] * 1
 % pq = [(1, 2)] + [(5, 4)] * 1
-param = z, mn, pq, c, d, a, b
+% param = z, mn, pq, c, d, a, b
 
 pyModule = py.importlib.import_module('multiFoxH');
-H = pyModule.compMultiFoxH(param, nsubdivisions=35, boundaryTol=1e-5)
+% pyModule = py.module('multiFoxH');
+H = pyModule.parseArgsFromMatlab(params);

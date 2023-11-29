@@ -117,3 +117,7 @@ def compMultiFoxH(params, nsubdivisions, boundaryTol=0.0001):
     volume = np.prod(2 * boundaries / nsubdivisions)
     result = quad * volume
     return result
+
+def parseArgsFromMatlab(params):
+    # H = pyModule.compMultiFoxH(param, nsubdivisions=35, boundaryTol=1e-5)
+    print("Teste")
