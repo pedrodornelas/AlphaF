@@ -2,6 +2,7 @@ from __future__ import division
 import numpy as np
 import scipy.special as special
 import itertools
+# from types import Array
 
 """
 Main module for computing the multiFoxH module. The script test_multiFoxH.py contains an
@@ -93,7 +94,7 @@ def compMultiFoxHIntegrand(y, params):
     return result
 
 
-def compMultiFoxH(params, nsubdivisions, boundaryTol=0.0001):
+def compMultiFoxH(params, nsubdivisions, boundaryTol):
     '''This module estimates a multivariate integral using simple rectangule
     quadrature. In most practical applications, 20 points per dimension provide
     sufficient accuracy.
@@ -118,6 +119,55 @@ def compMultiFoxH(params, nsubdivisions, boundaryTol=0.0001):
     result = quad * volume
     return result
 
-def parseArgsFromMatlab(params):
-    # H = pyModule.compMultiFoxH(param, nsubdivisions=35, boundaryTol=1e-5)
-    print("Teste")
+def parseArgsFromMatlab(params, N, L, Xi):    
+    params = (np.array(params))
+    # print(params)
+    Xi = (np.array(Xi))
+    N = int(N)
+    # print(N)
+    L = int(L)
+    # print(L)
+    points = len(Xi)
+
+    Ain = []
+    Bin = []
+    Cin = []
+    Din = []
+
+    for channel in range(N):
+        # print(channel)
+
+        # channel parameters
+        alpha = params[channel, 0]
+        mu = params[channel, 1]
+        ms = params[channel, 2]
+        z = params[channel, 3]
+
+        Ain = Ain + [(1-ms, 1/alpha)]
+        Bin = Bin + [(((z**2)/alpha) + 1, 1/alpha)]
+        Cin = Cin + [(mu , 1/alpha)]
+        Din = Din + [((z**2)/alpha , 1/alpha)]
+
+    # parameters for FoxH
+    mn = [(0, 1)] + [(2*N, N+1)]*L
+    pq = [(1, 2)] + [(2*N + 1, 2*N)]*L
+    # a -> top right
+    # b -> bot right
+    # c -> top left
+    # d -> bot left
+    a = [[(1,1)] + Ain + Bin] * L
+    b = [Cin + Din] * L
+    c = [tuple([1]+[1/2]*L)]
+    d = [tuple([1]+[1]*L), tuple([0]+[1/2]*L)]
+
+    # pre allocation
+    H = np.zeros(points)
+
+    for i in range(points):
+        z = np.array([Xi[i]]*L)
+        # print(z)
+        params_H = z, mn, pq, c, d, a, b
+        H[i] = np.real(compMultiFoxH(params_H, nsubdivisions=25, boundaryTol=1e-3))
+        # print(f'L={L};i={i}')
+
+    return H
