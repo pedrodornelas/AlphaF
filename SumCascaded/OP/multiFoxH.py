@@ -167,7 +167,8 @@ def parseArgsFromMatlab(params, N, L, Xi):
         z = np.array([Xi[i]]*L)
         # print(z)
         params_H = z, mn, pq, c, d, a, b
-        H[i] = np.real(compMultiFoxH(params_H, nsubdivisions=25, boundaryTol=1e-3))
+        # H[i] = np.real(compMultiFoxH(params_H, nsubdivisions=25, boundaryTol=1e-4))
+        H[i] = np.real(compMultiFoxH(params_H, nsubdivisions=20, boundaryTol=1e-3))
         # print(f'L={L};i={i}')
 
     return H
