@@ -2,7 +2,7 @@ import numpy as np
 from scipy.special import gamma
 from multiFoxH import parseArgsFromMatlab
 
-def OP_analit(L: int, N: int, params: list, gamma_th: float, gammaBar: np.array):
+def OP_analit(L: int, N: int, params: list, gamma_th: float, gammaBar: np.array) -> [float]:
     points = len(gammaBar)
     # print(points)
 

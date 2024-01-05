@@ -3,10 +3,11 @@ import numpy as np
 from scipy.io import savemat, loadmat
 
 from OP_analit import OP_analit
+from OP_asymptotic import OP_asymptotic
 
 fig, ax = plt.subplots()
 
-L = [1,2,3,4]
+L = [1,2,3]
 N = 2
 alpha = [1.5, 2.3]
 ms = [3, 4]
@@ -33,6 +34,7 @@ analit_gamma_bar_c[:,0] = gamma_bar
 # print(analit_gamma_bar_c)
 
 OP = np.zeros((points, len(L), len(z)))
+OP_asy = np.zeros((points, len(L), len(z)))
 
 color = ['b','g','r','m']
 
@@ -44,27 +46,33 @@ for i in range(len(L)):
 
         OP[:, i, k] = OP_analit(L[i], N, analit_params, gamma_th, analit_gamma_bar_c)
         # print(OP[:, i, k])
+        OP_asy[:, i, k] = OP_asymptotic(L[i], N, analit_params, gamma_th, analit_gamma_bar_c)
 
         if k == 0:
             ax.semilogy(gamma_bar_dB, OP[:, i, k], color=color[i], linestyle='-', label=(f'L = {L[i]}'))
         else:
             ax.semilogy(gamma_bar_dB, OP[:, i, k], color=color[i], linestyle='-')
-            
         
+        if i == len(L)-1 and k == len(z)-1:
+            ax.semilogy(gamma_bar_dB, OP_asy[:, i, k], color='k', linestyle='--', label='Asymptotic')
+        else:
+            ax.semilogy(gamma_bar_dB, OP_asy[:, i, k], color='k', linestyle='--')
+
     print(L[i])
 
 filename = "OP.mat"
 savemat(filename, dict(L=L,
                        N=N,
                        gamma_bar_dB=gamma_bar_dB,
-                       OP=OP))
+                       OP=OP,
+                       OP_asy=OP_asy))
 print("points saved...")
 
 
 ax.legend(loc='lower left')
 ax.set_ylabel("OP")
-ax.set_xlabel("gamma_bar_dB")
-ax.grid()
+ax.set_xlabel("SNR (dB)")
+ax.grid(linestyle='--', axis='both', linewidth=0.5)
 plt.ylim([10**(-5), 10**0])
 plt.xlim([min(gamma_bar_dB), max(gamma_bar_dB)])
 plt.show()
