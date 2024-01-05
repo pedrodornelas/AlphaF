@@ -28,7 +28,8 @@ set(groot,'defaultAxesTickLabelInterpreter','latex');
 %      8 , 9 ;];
 
 % RIS a-F with pointing errors
-L = [1,2,3,4]; % sum of cascaded channels
+% L = [1,2,3,4]; % sum of cascaded channels
+L = [1,2]
 N = [2]; % cascaded channels
 ms = [3,4];
 alpha = [1.5, 2.3];
@@ -92,25 +93,25 @@ for i = 1:length(L)
         simulation_params = [alpha(1), mu(1), ms(1), z(k, 1), rc, Hl;
                              alpha(2), mu(2), ms(2), z(k, 2), rc, Hl;];
         
-        gain_channels = individual_gain(max(N), simulation_params, Nc, simu_gammaBar_c);
-        gain_cascaded = cascaded_gain(gain_channels);
-        gain_sum_cascaded = sum_cascaded_gain(L(i), N, gain_cascaded);
+        % gain_channels = individual_gain(max(N), simulation_params, Nc, simu_gammaBar_c);
+        % gain_cascaded = cascaded_gain(gain_channels);
+        % gain_sum_cascaded = sum_cascaded_gain(L(i), N, gain_cascaded);
 
         for j = 1:length(N)
             [k, L(i)]
 
-            Gain = gain_sum_cascaded(:, :, L(i)).';
+            % Gain = gain_sum_cascaded(:, :, L(i)).';
 
-            for k = 1:length(simu_gammaBar)
-                flagOP = sum(Gain(k, :).^2 <= gamma_th);
-                Pout(k) = flagOP/Nc;
-            end
+            % for k = 1:length(simu_gammaBar)
+            %     flagOP = sum(Gain(k, :).^2 <= gamma_th);
+            %     Pout(k) = flagOP/Nc;
+            % end
 
             OP = OP_analit(L(i), N(j), analit_params, gamma_th, analit_gammaBar_c);
             OP_asy = OP_asymptotic(L(i), N(j), analit_params, gamma_th, analit_gammaBar_c);
 
-            h(cont) = semilogy(simu_gammaBar_dB, Pout, 'rx', 'linewidth', 1.2);hold on;
-            cont = cont + 1;
+            % h(cont) = semilogy(simu_gammaBar_dB, Pout, 'rx', 'linewidth', 1.2);hold on;
+            % cont = cont + 1;
             h(cont) = semilogy(analit_gammaBar_dB, OP, colorz(i), 'linewidth', 1.2);hold on;
             cont = cont + 1;
             h(cont) = semilogy(analit_gammaBar_dB, OP_asy, ['k--'], 'linewidth', 1.2);hold on;
@@ -132,8 +133,8 @@ legend('FontSize', 11, 'Location', 'southwest')
 %                                   "$z_1="+num2str(z(3,1))+", z_2="+num2str(z(3,2))+"$" , "Non-pointing errors"})
 % RIS legend
 % legend([h(1), h(5), h(9), h(13), h(14)], {"$L="+num2str(L(1))+"$", "$L="+num2str(L(2))+"$", "$L="+num2str(L(3))+"$", "$L="+num2str(L(4))+"$", "Asymptotic"})
-legend([h(2), h(8), h(14), h(20), h(21), h(22)], {"$L="+num2str(L(1))+"$", "$L="+num2str(L(2))+"$", "$L="+num2str(L(3))+"$", "$L="+num2str(L(4))+"$", "Asymptotic", "Simulated"});
-% legend([h(1), h(5), h(6)], {"$L="+num2str(L(1))+"$", "$L="+num2str(L(2))+"$", "Asymptotic"})
+% legend([h(2), h(8), h(14), h(20), h(21), h(22)], {"$L="+num2str(L(1))+"$", "$L="+num2str(L(2))+"$", "$L="+num2str(L(3))+"$", "$L="+num2str(L(4))+"$", "Asymptotic", "Simulated"});
+legend([h(1), h(5), h(6)], {"$L="+num2str(L(1))+"$", "$L="+num2str(L(2))+"$", "Asymptotic"})
 % legend([h(1), h(3), h(5), h(7), h(8)], {"$L="+num2str(L(1))+"$", "$L="+num2str(L(2))+"$", "$L="+num2str(L(3))+"$", "$L="+num2str(L(4))+"$", "Asymptotic"})
 
 
