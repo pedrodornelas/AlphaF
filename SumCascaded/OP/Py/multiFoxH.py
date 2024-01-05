@@ -121,12 +121,10 @@ def compMultiFoxH(params, nsubdivisions, boundaryTol):
 
 def parseArgsFromMatlab(params, N, L, Xi):    
     params = (np.array(params))
-    # print(params)
     Xi = (np.array(Xi))
     N = int(N)
-    # print(N)
     L = int(L)
-    # print(L)
+
     points = len(Xi)
 
     Ain = []
