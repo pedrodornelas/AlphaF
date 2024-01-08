@@ -1,6 +1,7 @@
 import matplotlib.pyplot as plt
 import numpy as np
-from scipy.io import savemat, loadmat
+from scipy.io import savemat
+from time import time
 
 from BEP_analit import BEP_analit
 from BEP_asymptotic import BEP_asymptotic
@@ -15,8 +16,8 @@ mu = [2.5, 3.5]
 # z = [[0.7, 0.72],
 #      [  7,   8]]
 
-z = [[0.85, 0.87],
-     [  7,   8]]
+z = [[0.7, 0.8],
+     [7  , 7.2]]
 
 p = 1    # BPSK modulation
 
@@ -40,7 +41,10 @@ BEP_asy = np.zeros((points, len(L), len(z)))
 
 color = ['b','g','r','m']
 
+start_BEP = time()
+
 for i in range(len(L)):
+    start_L = time()
     for k in range(len(z)):
         analit_params = [[alpha[0], mu[0], ms[0], z[k][0]],
                          [alpha[1], mu[1], ms[1], z[k][1]]]
@@ -60,7 +64,11 @@ for i in range(len(L)):
         else:
             ax.semilogy(gamma_bar_dB, BEP_asy[:, i, k], color='k', linestyle='--')
 
-    print(L[i])
+    end_L = time()
+    print(f'BEP: L={L[i]} => {(end_L - start_L)}')
+
+end_BEP = time()
+print(f'BEP TIME => {(end_BEP - start_BEP)}')
 
 filename = "BEP.mat"
 savemat(filename, dict(L=L,
