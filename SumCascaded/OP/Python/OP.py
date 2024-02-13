@@ -11,7 +11,7 @@ L = [1,2,3,4]
 N = 2
 alpha = [1.5, 2.3]
 ms = [3, 4]
-mu = [2, 2]
+mu = [1.5, 1.7]
 z = [[0.7, 0.8],
      [  7,   8]]
 
@@ -25,7 +25,7 @@ for idx, a in enumerate(alpha):
 
 points = 100
 l_bound_dB = 0
-u_bound_dB = 30
+u_bound_dB = 50
 gamma_bar_dB = np.linspace(l_bound_dB, u_bound_dB, points)
 gamma_bar = 10 ** (gamma_bar_dB / 10)
 
