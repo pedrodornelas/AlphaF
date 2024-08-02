@@ -15,6 +15,7 @@ ms = 3
 # mu = [1.5, 1.7]
 mu = 1.5
 z = [0.7, 7]
+# z = [7]
 
 # for idx, a in enumerate(alpha):
 #     if ms[idx] <= (4/a):
