@@ -28,7 +28,7 @@ if ms <= (4/alpha):
 
 points = 100
 l_bound_dB = 0
-u_bound_dB = 100
+u_bound_dB = 30
 gamma_bar_dB = np.linspace(l_bound_dB, u_bound_dB, points)
 gamma_bar = 10 ** (gamma_bar_dB / 10)
 
