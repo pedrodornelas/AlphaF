@@ -1,6 +1,7 @@
 import matplotlib.pyplot as plt
 import numpy as np
 from scipy.io import savemat, loadmat
+import cmath
 
 from PEP_analit import PEP_analit
 from PEP_asymptotic import PEP_asymptotic
@@ -16,6 +17,13 @@ ms = 3
 mu = 1.5
 z = [0.7, 7]
 # z = [7]
+
+# constelation for PEP
+s1 = -0.7071 + 0.7071j
+print(s1)
+s2 = complex(-0.7071, -0.7071)
+s3 = complex(+0.7071, +0.7071)
+s4 = complex(+0.7071, -0.7071)
 
 # for idx, a in enumerate(alpha):
 #     if ms[idx] <= (4/a):
@@ -35,39 +43,39 @@ gamma_bar = 10 ** (gamma_bar_dB / 10)
 PEP = np.zeros((points, len(L), len(z)))
 PEP_asy = np.zeros((points, len(L), len(z)))
 
-color = ['b','g','r','m']
+# color = ['b','g','r','m']
 
-for i in range(len(L)):
-    for k in range(len(z)):
-        analit_params = [alpha, mu, ms, z[k]]
-        # print(analit_params)
+# for i in range(len(L)):
+#     for k in range(len(z)):
+#         analit_params = [alpha, mu, ms, z[k]]
+#         # print(analit_params)
 
-        PEP[:, i, k] = PEP_analit(L[i], analit_params, gamma_bar)
-        # print(PEP[:, i, k])
-        PEP_asy[:, i, k] = PEP_asymptotic(L[i], analit_params, gamma_bar)
+#         PEP[:, i, k] = PEP_analit(L[i], analit_params, gamma_bar)
+#         # print(PEP[:, i, k])
+#         PEP_asy[:, i, k] = PEP_asymptotic(L[i], analit_params, gamma_bar)
 
-        if k == 0:
-            ax.semilogy(gamma_bar_dB, PEP[:, i, k], color=color[i], linestyle='-', label=(f'L = {L[i]}'))
-        else:
-            ax.semilogy(gamma_bar_dB, PEP[:, i, k], color=color[i], linestyle='-')
+#         if k == 0:
+#             ax.semilogy(gamma_bar_dB, PEP[:, i, k], color=color[i], linestyle='-', label=(f'L = {L[i]}'))
+#         else:
+#             ax.semilogy(gamma_bar_dB, PEP[:, i, k], color=color[i], linestyle='-')
         
-        if i == len(L)-1 and k == len(z)-1:
-            ax.semilogy(gamma_bar_dB, PEP_asy[:, i, k], color='k', linestyle='--', label='Asymptotic')
-        else:
-            ax.semilogy(gamma_bar_dB, PEP_asy[:, i, k], color='k', linestyle='--')
+#         if i == len(L)-1 and k == len(z)-1:
+#             ax.semilogy(gamma_bar_dB, PEP_asy[:, i, k], color='k', linestyle='--', label='Asymptotic')
+#         else:
+#             ax.semilogy(gamma_bar_dB, PEP_asy[:, i, k], color='k', linestyle='--')
 
-    print('L = ' + str(L[i]))
+#     print('L = ' + str(L[i]))
 
-filename = "PEP.mat"
-savemat(filename, dict(L=L,
-                       gamma_bar_dB=gamma_bar_dB,
-                       PEP=PEP,
-                       PEP_asy=PEP_asy,
-                       alpha=alpha,
-                       mu=mu,
-                       ms=ms,
-                       z=z))
-print("points saved...")
+# filename = "PEP.mat"
+# savemat(filename, dict(L=L,
+#                        gamma_bar_dB=gamma_bar_dB,
+#                        PEP=PEP,
+#                        PEP_asy=PEP_asy,
+#                        alpha=alpha,
+#                        mu=mu,
+#                        ms=ms,
+#                        z=z))
+# print("points saved...")
 
 
 ax.legend(loc='lower left')
