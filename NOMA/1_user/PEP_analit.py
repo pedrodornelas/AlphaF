@@ -5,7 +5,7 @@ import math
 
 pi = math.pi
 
-def PEP_analit(L: int, params: list, gammaBar: np.array) -> list[float]:
+def PEP_analit(L: int, params: list, theta: float, gammaBar: np.array) -> list[float]:
     points = len(gammaBar)
     # print(points)
 
@@ -13,7 +13,6 @@ def PEP_analit(L: int, params: list, gammaBar: np.array) -> list[float]:
     mu = params[1]
     ms = params[2]
     z = params[3]
-    theta = 1
 
     preH = ( (L * ((alpha)**(1-L))) / (4*( (pi)**(1/2) ))) * (( (z**2) / (gamma(mu)*gamma(ms)))**L)
 

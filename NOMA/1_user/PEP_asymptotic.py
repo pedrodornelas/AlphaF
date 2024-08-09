@@ -4,13 +4,11 @@ import math
 
 pi = math.pi
 
-def PEP_asymptotic(L: int, params: list[float], gammaBar: np.array) -> list[float]:    
+def PEP_asymptotic(L: int, params: list[float], theta: float, gammaBar: np.array) -> list[float]:    
     alpha = params[0]
     mu = params[1]
     ms = params[2]
     z = params[3]
-
-    theta = 1
 
     if mu < ((z**2) / alpha):
         frac1 = gamma(1/2 + (alpha*mu*L)/2) / (2 * pi**(1/2))
