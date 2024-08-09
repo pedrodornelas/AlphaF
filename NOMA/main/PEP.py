@@ -6,10 +6,41 @@ import cmath
 from PEP_analit import PEP_analit
 from PEP_asymptotic import PEP_asymptotic
 
+def createTheta(user: int, L: int, Beta: list[float], P: float, sigma: float, symbols) -> float:
+    sym_tx = symbols[user][0]
+    sym_rx = symbols[user][1]
+    # symbols distance
+    delta_user = sym_tx - sym_rx
+
+    denom = (2**(1/2)) * sigma * abs(delta_user)
+
+    prod1 = ((Beta[user]*P)**(1/2)) * ((abs(delta_user))**2)
+    # print(prod1)
+
+    sum1 = 0
+    if user != 0:
+        for i in range(0, user):
+            print('i = ' + str(i))
+            delta_l = symbols[i][0] - symbols[i][1]
+            sum1 = sum1 + ((Beta[i]*P)**(1/2))*(np.conjugate(delta_l))
+
+    sum2 = 0
+    if user != (L-1):
+        for j in range(user+1, L):
+            print('j = ' + str(j))
+            sum2 = sum2 + (Beta[j]*P)**(1/2)*(np.conjugate(symbols[j][0]))
+
+    sum = sum1 + sum2
+    prod2 = delta_user*sum
+    # print(prod2)
+
+    final_prod = (prod1 + 2*(prod2.real)) / denom
+    return final_prod
+
 fig, ax = plt.subplots()
 
 # L = [1,2,3,4] # number of users
-L = [3] # number of users
+L = 3 # number of users
 # alpha = [1.5, 2.3]
 alpha = 2
 # ms = [3, 4]
@@ -34,10 +65,6 @@ Beta = [0.7, 0.2, 0.1]
 # power transmission
 P = 1
 
-# symbols distance
-delta = symbols[0][0] - symbols[0][1]
-# print(delta)
-
 sigma = 1
 
 # for idx, a in enumerate(alpha):
@@ -55,39 +82,33 @@ u_bound_dB = 40
 gamma_bar_dB = np.linspace(l_bound_dB, u_bound_dB, points)
 gamma_bar = 10 ** (gamma_bar_dB / 10)
 
-PEP = np.zeros((points, len(L), len(z)))
-PEP_asy = np.zeros((points, len(L), len(z)))
+PEP = np.zeros((points, L, len(z)))
+PEP_asy = np.zeros((points, L, len(z)))
 
 color = ['b','g','r','m']
 
-for i in range(len(L)):
+for l in range(L):
+    print('user = ' + str(l))
     for k in range(len(z)):
         analit_params = [alpha, mu, ms, z[k]]
         # print(analit_params)
 
-        prod1 = ((Beta[0]*P)**(1/2)) * ((abs(delta))**2)
-        print(prod1)
-        prod2 = delta*((Beta[1]*P)**(1/2) * np.conjugate(symbols[1][0]) + (Beta[2]*P)**(1/2) * np.conjugate(symbols[2][0]))
-        print(prod2)
-
-        theta = (prod1 + 2*(prod2.real)) / (2**(1/2) * sigma * abs(delta))
+        theta = createTheta(l, L, Beta, P, sigma, symbols)
         # print(theta)
 
-        PEP[:, i, k] = PEP_analit(L[i], analit_params, theta, gamma_bar)
-        # print(PEP[:, i, k])
-        PEP_asy[:, i, k] = PEP_asymptotic(L[i], analit_params, theta, gamma_bar)
+        PEP[:, l, k] = PEP_analit(l, L, analit_params, theta, gamma_bar)
+        # print(PEP[:, l, k])
+        # PEP_asy[:, l, k] = PEP_asymptotic(l, L, analit_params, theta, gamma_bar)
 
         if k == 0:
-            ax.semilogy(gamma_bar_dB, PEP[:, i, k], color=color[i], linestyle='-', label=(f'L = {L[i]}'))
+            ax.semilogy(gamma_bar_dB, PEP[:, l, k], color=color[l], linestyle='-', label=(f'U = {l}'))
         else:
-            ax.semilogy(gamma_bar_dB, PEP[:, i, k], color=color[i], linestyle='-')
+            ax.semilogy(gamma_bar_dB, PEP[:, l, k], color=color[l], linestyle='-')
         
-        if i == len(L)-1 and k == len(z)-1:
-            ax.semilogy(gamma_bar_dB, PEP_asy[:, i, k], color='k', linestyle='--', label='Asymptotic')
-        else:
-            ax.semilogy(gamma_bar_dB, PEP_asy[:, i, k], color='k', linestyle='--')
-
-    print('L = ' + str(L[i]))
+        # if l == L-1 and k == len(z)-1:
+        #     ax.semilogy(gamma_bar_dB, PEP_asy[:, l, k], color='k', linestyle='--', label='Asymptotic')
+        # else:
+        #     ax.semilogy(gamma_bar_dB, PEP_asy[:, l, k], color='k', linestyle='--')
 
 ax.legend(loc='lower left')
 # ax.set_ylabel("PEP 1^st User")
