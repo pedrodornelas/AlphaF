@@ -51,14 +51,19 @@ mu = 1
 z = [8]
 
 # constelation for PEP
-s1 = L**(1/2) * (-0.7071 + 0.7071j)
-s2 = L**(1/2) * (-0.7071 - 0.7071j)
-s3 = L**(1/2) * (+0.7071 + 0.7071j)
-s4 = L**(1/2) * (+0.7071 - 0.7071j)
+# s1 = (-0.7071 + 0.7071j)
+# s2 = (-0.7071 - 0.7071j)
+# s3 = (+0.7071 + 0.7071j)
+# s4 = (+0.7071 - 0.7071j)
 
-symbols = [[s1, s3],
-           [s1, s3],
-           [s1, s3]]
+s1 = (-1 - 1j)
+s2 = (-1 + 1j)
+s3 = (+1 - 1j)
+s4 = (+1 + 1j)
+
+symbols = [[s2, s1],
+           [s2, s1],
+           [s2, s1]]
 
 print(symbols)
 # symbols = np.multiply(L**(1/2), symbols)
@@ -83,8 +88,8 @@ if ms <= (4/alpha):
     exit()
 
 points = 100
-l_bound_dB = 0
-u_bound_dB = 40
+l_bound_dB = -30
+u_bound_dB = 20
 gamma_bar_dB = np.linspace(l_bound_dB, u_bound_dB, points)
 gamma_bar = 10 ** (gamma_bar_dB / 10)
 # gamma_bar = (L**(1/2)) * (10 ** (gamma_bar_dB / 10))
@@ -122,7 +127,7 @@ ax.legend(loc='lower left')
 # ax.set_ylabel("PEP 1^st User")
 # ax.set_xlabel("SNR (dB)")
 ax.grid(linestyle='--', axis='both', linewidth=0.5)
-plt.ylim([10**(-10), 10**0])
+plt.ylim([10**(-8), 10**0])
 plt.xlim([min(gamma_bar_dB), max(gamma_bar_dB)])
 plt.show()
 

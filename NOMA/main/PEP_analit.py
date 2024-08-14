@@ -19,6 +19,8 @@ def PEP_analit(user: int, L: int, params: list, theta: float, gammaBar: np.array
 
     if user == 0:
         # first user
+        print('first user')
+
         sum = 0
         preH = (alpha*L) / (4*(pi**(1/2)))
         for k in range(L-1):
@@ -33,6 +35,8 @@ def PEP_analit(user: int, L: int, params: list, theta: float, gammaBar: np.array
         PEP = preH * sum
     elif user != L:
         # l_th user
+        print('l_th user')
+
         sum = 0
         gamma_ratio = (gamma(L+1)) / (gamma(user)*gamma(L-user+1))
         preH = (alpha*gamma_ratio) / (4*(pi**(1/2)))
@@ -48,6 +52,8 @@ def PEP_analit(user: int, L: int, params: list, theta: float, gammaBar: np.array
         PEP = preH * sum
     else:
         # last user
+        print('last user')
+
         sum = 0
         frac = ((z**2) / (gamma(mu)*gamma(ms)))**L
         preH = ((alpha**(1-L))*L*frac) / (4*(pi**(1/2)))
