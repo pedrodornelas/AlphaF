@@ -130,7 +130,10 @@ def parseArgsToMultiH(params: list[float], idx: int, omega: np.array, points: in
 
     # parameters for FoxH
     mn = [(0, 2)] + [(2, 1)] + [(2, 2)]*(idx-1)
+    # print('mn: ', mn)
     pq = [(2, 1)] + [(2, 2)] + [(3, 3)]*(idx-1)
+    # print('pq: ', pq)
+
     # a -> top right
     # b -> bot right
     # c -> top left
@@ -144,9 +147,9 @@ def parseArgsToMultiH(params: list[float], idx: int, omega: np.array, points: in
     H = np.zeros(points)
 
     for i in range(points):
-        z = np.array([omega[i]]*idx)
-        # print(z)
-        params_H = z, mn, pq, c, d, a, b
+        aux = np.array([omega[i]]*idx)
+        # print(aux)
+        params_H = aux, mn, pq, c, d, a, b
         H[i] = np.real(compMultiFoxH(params_H, nsubdivisions=30, boundaryTol=1e-4))
         # H[i] = np.real(compMultiFoxH(params_H, nsubdivisions=20, boundaryTol=1e-3))
         # print(f'idx={idx};i={i}')

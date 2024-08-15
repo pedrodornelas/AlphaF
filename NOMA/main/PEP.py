@@ -20,14 +20,14 @@ def createTheta(user: int, L: int, Beta: list[float], P: float, sigma: float, sy
     sum1 = 0
     if user != 0:
         for i in range(0, user):
-            print('i = ' + str(i))
+            # print('i = ' + str(i))
             delta_l = symbols[i][0] - symbols[i][1]
             sum1 = sum1 + ((Beta[i]*P)**(1/2))*(np.conjugate(delta_l))
 
     sum2 = 0
     if user != (L-1):
         for j in range(user+1, L):
-            print('j = ' + str(j))
+            # print('j = ' + str(j))
             sum2 = sum2 + (Beta[j]*P)**(1/2)*(np.conjugate(symbols[j][0]))
 
     sum = sum1 + sum2
@@ -88,8 +88,8 @@ if ms <= (4/alpha):
     exit()
 
 points = 100
-l_bound_dB = -30
-u_bound_dB = 20
+l_bound_dB = -20
+u_bound_dB = 30
 gamma_bar_dB = np.linspace(l_bound_dB, u_bound_dB, points)
 gamma_bar = 10 ** (gamma_bar_dB / 10)
 # gamma_bar = (L**(1/2)) * (10 ** (gamma_bar_dB / 10))
@@ -100,28 +100,28 @@ PEP_asy = np.zeros((points, L, len(z)))
 
 color = ['b','g','r','m']
 
-for l in range(L):
-    print('user = ' + str(l))
+for user in range(L):
+    print('user = ' + str(user))
     for k in range(len(z)):
         analit_params = [alpha, mu, ms, z[k]]
         # print(analit_params)
 
-        theta = createTheta(l, L, Beta, P, sigma, symbols)
+        theta = createTheta(user, L, Beta, P, sigma, symbols)
         # print(theta)
 
-        PEP[:, l, k] = PEP_analit(l, L, analit_params, theta, gamma_bar)
-        # print(PEP[:, l, k])
-        # PEP_asy[:, l, k] = PEP_asymptotic(l, L, analit_params, theta, gamma_bar)
+        PEP[:, user, k] = PEP_analit(user, L, analit_params, theta, gamma_bar)
+        # print(PEP[:, user, k])
+        # PEP_asy[:, user, k] = PEP_asymptotic(user, L, analit_params, theta, gamma_bar)
 
         if k == 0:
-            ax.semilogy(gamma_bar_dB, PEP[:, l, k], color=color[l], linestyle='-', label=(f'U = {l}'))
+            ax.semilogy(gamma_bar_dB, PEP[:, user, k], color=color[user], linestyle='-', label=(f'User = {user+1}'))
         else:
-            ax.semilogy(gamma_bar_dB, PEP[:, l, k], color=color[l], linestyle='-')
+            ax.semilogy(gamma_bar_dB, PEP[:, user, k], color=color[user], linestyle='-')
         
-        # if l == L-1 and k == len(z)-1:
-        #     ax.semilogy(gamma_bar_dB, PEP_asy[:, l, k], color='k', linestyle='--', label='Asymptotic')
+        # if user == L-1 and k == len(z)-1:
+        #     ax.semilogy(gamma_bar_dB, PEP_asy[:, user, k], color='k', linestyle='--', label='Asymptotic')
         # else:
-        #     ax.semilogy(gamma_bar_dB, PEP_asy[:, l, k], color='k', linestyle='--')
+        #     ax.semilogy(gamma_bar_dB, PEP_asy[:, user, k], color='k', linestyle='--')
 
 ax.legend(loc='lower left')
 # ax.set_ylabel("PEP 1^st User")

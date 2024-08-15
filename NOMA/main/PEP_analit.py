@@ -23,33 +23,38 @@ def PEP_analit(user: int, L: int, params: list, theta: float, gammaBar: np.array
 
         sum = 0
         preH = (alpha*L) / (4*(pi**(1/2)))
-        for k in range(L-1):
+        for k in range(L-1+1):
             binomial = binom(L-1, k)
             signal = (-1)**k
             frac = ((z**2) / (alpha*gamma(mu)*gamma(ms)))**(k+1)
 
-            H = firstUserMultiH(params, k, Xi, points)
+            # H = firstUserMultiH(params, k, Xi, points)
+            H = parseArgsToMultiH(params, k+1, Xi, points)
 
             sum = sum + (binomial*signal*frac*H)
         
         PEP = preH * sum
-    elif user != L:
+
+    elif user != (L-1):
         # l_th user
         print('l_th user')
+        real_user = user+1
+        # print('real number user: ', real_user)
 
         sum = 0
-        gamma_ratio = (gamma(L+1)) / (gamma(user)*gamma(L-user+1))
+        gamma_ratio = (gamma(L+1)) / (gamma(real_user)*gamma(L-real_user+1))
         preH = (alpha*gamma_ratio) / (4*(pi**(1/2)))
-        for k in range(L-1):
-            binomial = binom(L-user, k)
+        for k in range(L-real_user+1):
+            binomial = binom(L-real_user, k)
             signal = (-1)**k
-            frac = ((z**2) / (alpha*gamma(mu)*gamma(ms)))**(user+k)
+            frac = ((z**2) / (alpha*gamma(mu)*gamma(ms)))**(real_user+k)
 
-            H = parseArgsToMultiH(params, user+k, Xi, points)
+            H = parseArgsToMultiH(params, real_user+k, Xi, points)
 
             sum = sum + (binomial*signal*frac*H)
         
         PEP = preH * sum
+
     else:
         # last user
         print('last user')
