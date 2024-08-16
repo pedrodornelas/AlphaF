@@ -48,7 +48,7 @@ ms = 50
 # mu = [1.5, 1.7]
 mu = 1
 # z = [0.7, 7]
-z = [8]
+z = [0.7, 8]
 
 # constelation for PEP
 # s1 = (-0.7071 + 0.7071j)
@@ -131,17 +131,17 @@ plt.ylim([10**(-8), 10**0])
 plt.xlim([min(gamma_bar_dB), max(gamma_bar_dB)])
 plt.show()
 
-# save = str(input('Do you want save points? (Y/N): '))
-# if (save == "Y" or save == "y"):
-#     filename = "PEP.mat"
-#     savemat(filename, dict(L=L,
-#                         gamma_bar_dB=gamma_bar_dB,
-#                         PEP=PEP,
-#                         PEP_asy=PEP_asy,
-#                         alpha=alpha,
-#                         mu=mu,
-#                         ms=ms,
-#                         z=z))
-#     print("saved points...")
-# else:
-#     print("discarded points")
+save = str(input('Do you want save points? (Y/N): '))
+if (save == "Y" or save == "y"):
+    filename = "PEP.mat"
+    savemat(filename, dict(L=L,
+                        gamma_bar_dB=gamma_bar_dB,
+                        PEP=PEP,
+                        PEP_asy=PEP_asy,
+                        alpha=alpha,
+                        mu=mu,
+                        ms=ms,
+                        z=z))
+    print("saved points...")
+else:
+    print("discarded points")
