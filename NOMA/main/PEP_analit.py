@@ -28,8 +28,8 @@ def PEP_analit(user: int, L: int, params: list, theta: float, gammaBar: np.array
             signal = (-1)**k
             frac = ((z**2) / (alpha*gamma(mu)*gamma(ms)))**(k+1)
 
-            # H = firstUserMultiH(params, k, Xi, points)
-            H = parseArgsToMultiH(params, k+1, Xi, points)
+            H = firstUserMultiH(params, k, Xi, points)
+            # H = parseArgsToMultiH(params, k+1, Xi, points)
 
             sum = sum + (binomial*signal*frac*H)
         

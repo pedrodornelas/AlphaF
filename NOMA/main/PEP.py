@@ -42,11 +42,11 @@ fig, ax = plt.subplots()
 # L = [1,2,3,4] # number of users
 L = 3 # number of users
 # alpha = [1.5, 2.3]
-alpha = 2
+alpha = 3.5
 # ms = [3, 4]
-ms = 50
+ms = 3
 # mu = [1.5, 1.7]
-mu = 1
+mu = 1.5
 # z = [0.7, 7]
 z = [0.7, 8]
 
@@ -111,17 +111,17 @@ for user in range(L):
 
         PEP[:, user, k] = PEP_analit(user, L, analit_params, theta, gamma_bar)
         # print(PEP[:, user, k])
-        # PEP_asy[:, user, k] = PEP_asymptotic(user, L, analit_params, theta, gamma_bar)
+        PEP_asy[:, user, k] = PEP_asymptotic(user, L, analit_params, theta, gamma_bar)
 
         if k == 0:
             ax.semilogy(gamma_bar_dB, PEP[:, user, k], color=color[user], linestyle='-', label=(f'User = {user+1}'))
         else:
             ax.semilogy(gamma_bar_dB, PEP[:, user, k], color=color[user], linestyle='-')
         
-        # if user == L-1 and k == len(z)-1:
-        #     ax.semilogy(gamma_bar_dB, PEP_asy[:, user, k], color='k', linestyle='--', label='Asymptotic')
-        # else:
-        #     ax.semilogy(gamma_bar_dB, PEP_asy[:, user, k], color='k', linestyle='--')
+        if user == L-1 and k == len(z)-1:
+            ax.semilogy(gamma_bar_dB, PEP_asy[:, user, k], color='k', linestyle='--', label='Asymptotic')
+        else:
+            ax.semilogy(gamma_bar_dB, PEP_asy[:, user, k], color='k', linestyle='--')
 
 ax.legend(loc='lower left')
 # ax.set_ylabel("PEP 1^st User")
