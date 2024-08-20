@@ -14,7 +14,7 @@ def PEP_analit(user: int, L: int, params: list, theta: float, gammaBar: np.array
     ms = params[2]
     z = params[3]
 
-    Psi = (mu/(ms-1)) ** (1/alpha)
+    Psi = (mu/(ms-1))
     Xi = (Psi*( (z*(2**(1/2)))**alpha )) / (((theta**2) * gammaBar * (z**2 + 2))**(alpha/2))
 
     if user == 0:
